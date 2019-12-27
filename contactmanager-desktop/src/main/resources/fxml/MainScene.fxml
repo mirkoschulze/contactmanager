@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="900.0"
+            xmlns="http://javafx.com/javafx/8.0.201" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="de.mcdb.contactmanagerdesktop.ContactManagerController">
+    <top>
+        <HBox fx:id="queryBox" alignment="CENTER" prefHeight="50.0" prefWidth="900.0" spacing="10.0" BorderPane.alignment="CENTER">
+            <children>
+                <ComboBox fx:id="operationSelection" prefWidth="150.0" />
+                <ComboBox fx:id="tableSelection" prefWidth="150.0" />
+                <TextField fx:id="conditionInput" prefHeight="26.0" prefWidth="225.0" promptText="where company_company_id = 3" />
+                <Button onAction="#executeQuery" text="Query Ausführen" />
+            </children>
+        </HBox>
+    </top>
+    <bottom>
+        <VBox prefHeight="100.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+            <children>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                    <children>
+                        <Button fx:id="findByIdBtn" text="Per ID Finden" />
+                        <Button fx:id="persistBtn" text="Persisten" />
+                        <Button fx:id="updateBtn" text="Aktualisieren" />
+                        <Button fx:id="removeBtn" text="Löschen" />
+                        <CheckBox fx:id="enableQueryBoxCheckBox" text="JDBC Query Box" />
+                    </children>
+                </HBox>
+                <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Button fx:id="exitBtn" onAction="#exit" text="Beenden" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </bottom>
+    <center>
+        <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER" />
+    </center>
+    <padding>
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+    </padding>
+</BorderPane>
