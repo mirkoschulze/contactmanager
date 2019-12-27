@@ -3,7 +3,6 @@ package de.mcdb.contactmanagerdesktop.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -72,7 +71,6 @@ public class Division implements Serializable {
      * bidirectional mapping in the following steps:
      * <ul><li>If the submitted Company already is the Company of this Division:
      * do nothing and return</li>
-     * <p>
      * <li>Else:<ul><li>If this Divisions Company is not null: remove this
      * Division from the Company</li>
      * <li>If the submitted Company is not null: add this Division to the
@@ -112,7 +110,7 @@ public class Division implements Serializable {
     }
 
     /**
-     * Adds the submitted {@link Staffer} to this {@link DIvision} and ensures
+     * Adds the submitted {@link Staffer} to this {@link Division} and ensures
      * bidirectional mapping by calling {@link Staffer#setDivision(Division)},
      *
      * @param staffer the referenced {@link Staffer}

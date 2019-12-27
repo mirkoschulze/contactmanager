@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Invokes a specified {@link javafx.scene.control.Dialog} pane with
- * {@link Label}<code>s</code>, {@link extField}<code>s</code> and
+ * {@link Label}<code>s</code>, {@link TextField}<code>s</code> and
  * {@link ComboBox}<code>s</code> to create a new {@link Staffer}.
  * <p>
  * The created Staffer is the return value of the constructor, if a valid name

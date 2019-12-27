@@ -45,7 +45,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.slf4j.LoggerFactory;
-//</editor-fold>
 
 /**
  * Controller class for {@link ContactManager}.

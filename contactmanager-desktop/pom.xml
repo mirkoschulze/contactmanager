@@ -17,7 +17,7 @@
     <name>Contact Manager Desktop</name>
     <description>Desktop application for my Contact Manager project.</description>
     
-    <properties>        
+    <properties>
         <mysql.version>8.0.18</mysql.version>
         <hibernate.version>5.4.4.Final</hibernate.version>
         <hibernate.annotations.version>5.1.0.Final</hibernate.annotations.version>
@@ -148,8 +148,8 @@
                     </packages>
                 </configuration>
             </plugin>
+            <!-- E : JPDigital -->
         </plugins>
-        <!-- E : JPDigital -->
     </build>
     
 </project>
