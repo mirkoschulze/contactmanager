@@ -2,9 +2,9 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="ContactManagerPU">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <class>de.mcdb.contactmanagerdesktop.entity.Division</class>
-    <class>de.mcdb.contactmanagerdesktop.entity.Company</class>
-    <class>de.mcdb.contactmanagerdesktop.entity.Staffer</class>
+    <class>de.mcdb.contactmanagersupport.datamodel.Division</class>
+    <class>de.mcdb.contactmanagersupport.datamodel.Company</class>
+    <class>de.mcdb.contactmanagersupport.datamodel.Staffer</class>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/contact_db?serverTimezone=UTC"/>
@@ -12,7 +12,7 @@
       <property name="javax.persistence.jdbc.password" value="acbbaber"/>
       <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
       <property name="hibernate.current_session_context_class" value="thread"/>
-      <property name="hibernate.hbm2ddl.auto" value="create"/>
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
       <property name="hibernate.show_sql" value="false"/>
       <property name="hibernate.format_sql" value="false"/>
     </properties>

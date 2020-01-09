@@ -1,4 +1,4 @@
-package de.mcdb.contactmanagerdesktop;
+package de.mcdb.contactmanagerapi;
 
 import ch.qos.logback.classic.Logger;
 import javax.persistence.EntityManager;

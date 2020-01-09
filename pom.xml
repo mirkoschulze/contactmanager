@@ -11,9 +11,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>contactmanager-support</module>
         <module>contactmanager-desktop</module>
         <module>contactmanager-web</module>
+        <module>contactmanager-api</module>
     </modules>
 
     <name>Contact Manager</name>
@@ -37,7 +37,6 @@
         <hibernate.annotations.version>5.1.0.Final</hibernate.annotations.version>
         <hibernate.jpa.version>1.0.2.Final</hibernate.jpa.version>
         <querydsl.version>4.2.1</querydsl.version>
-        <logback.version>1.2.3</logback.version>
         <slf4j.version>1.7.29</slf4j.version>
     </properties>
 
@@ -83,17 +82,6 @@
             <version>${querydsl.version}</version>
         </dependency>
         <!-- Logging -->
-        <!-- Logback -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>${logback.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
-        </dependency>
         <!-- SLF4J -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -101,32 +89,5 @@
             <version>${slf4j.version}</version>
         </dependency>
     </dependencies>
-
-
-
-    <build>
-        <plugins>
-            <!-- S : Download javadoc for dependencies -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
-                <configuration>
-                    <outputDirectory>${build.dir}/resources/javadoc</outputDirectory>
-                    <reportOutputDirectory>${project.reporting.outputDirectory}/javadoc</reportOutputDirectory>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>aggregate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- E : Download javadoc for dependencies -->
-        </plugins>
-    </build>
 
 </project>

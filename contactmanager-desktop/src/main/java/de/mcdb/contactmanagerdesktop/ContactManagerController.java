@@ -2,9 +2,11 @@ package de.mcdb.contactmanagerdesktop;
 
 //<editor-fold defaultstate="collapsed" desc="imports">
 import ch.qos.logback.classic.Logger;
-import de.mcdb.contactmanagerdesktop.entity.Company;
-import de.mcdb.contactmanagerdesktop.entity.Division;
-import de.mcdb.contactmanagerdesktop.entity.Staffer;
+import de.mcdb.contactmanagerapi.Dao;
+import de.mcdb.contactmanagerapi.HibernateUtils;
+import de.mcdb.contactmanagerapi.datamodel.Company;
+import de.mcdb.contactmanagerapi.datamodel.Division;
+import de.mcdb.contactmanagerapi.datamodel.Staffer;
 import de.mcdb.contactmanagerdesktop.fx.CompanyDialog;
 import de.mcdb.contactmanagerdesktop.fx.DivisionDialog;
 import de.mcdb.contactmanagerdesktop.fx.RequestIdDialog;

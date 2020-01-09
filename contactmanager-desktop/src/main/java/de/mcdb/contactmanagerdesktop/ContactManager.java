@@ -1,5 +1,6 @@
 package de.mcdb.contactmanagerdesktop;
 
+import de.mcdb.contactmanagerapi.HibernateUtils;
 import ch.qos.logback.classic.Logger;
 import java.io.IOException;
 import javafx.application.Application;

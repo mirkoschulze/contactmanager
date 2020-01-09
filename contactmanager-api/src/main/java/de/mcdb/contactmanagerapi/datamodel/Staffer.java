@@ -1,4 +1,4 @@
-package de.mcdb.contactmanagerdesktop.entity;
+package de.mcdb.contactmanagerapi.datamodel;
 
 import java.io.Serializable;
 import javax.persistence.Column;

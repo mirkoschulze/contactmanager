@@ -1,18 +1,16 @@
-package de.mcdb.contactmanagerweb;
+package de.mcdb.contactmanagerapi;
 
+import ch.qos.logback.classic.Logger;
 import com.querydsl.jpa.impl.JPAQuery;
-import de.mcdb.contactmanagerweb.entity.Company;
-import de.mcdb.contactmanagerweb.entity.Division;
-import static de.mcdb.contactmanagerweb.entity.QCompany.company;
-import static de.mcdb.contactmanagerweb.entity.QDivision.division;
-import static de.mcdb.contactmanagerweb.entity.QStaffer.staffer;
-import de.mcdb.contactmanagerweb.entity.Staffer;
+import de.mcdb.contactmanagerapi.datamodel.Company;
+import de.mcdb.contactmanagerapi.datamodel.Division;
+import static de.mcdb.contactmanagerapi.datamodel.QCompany.company;
+import static de.mcdb.contactmanagerapi.datamodel.QDivision.division;
+import static de.mcdb.contactmanagerapi.datamodel.QStaffer.staffer;
+import de.mcdb.contactmanagerapi.datamodel.Staffer;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.Stateless;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -24,11 +22,9 @@ import org.slf4j.LoggerFactory;
  *
  * @author Mirko Schulze
  */
-@Named
-@Stateless
 public class Dao {
 
-    private static final Logger L = LoggerFactory.getLogger(Dao.class);
+    private static final Logger L = (Logger) LoggerFactory.getLogger(Dao.class);
 
     private final EntityManager em = HibernateUtils.getEntityManager();
 

@@ -1,8 +1,8 @@
 package de.mcdb.contactmanagerweb;
 
-import de.mcdb.contactmanagerweb.entity.Company;
-import de.mcdb.contactmanagerweb.entity.Division;
-import de.mcdb.contactmanagerweb.entity.Staffer;
+import de.mcdb.contactmanagerapi.datamodel.Company;
+import de.mcdb.contactmanagerapi.datamodel.Division;
+import de.mcdb.contactmanagerapi.datamodel.Staffer;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

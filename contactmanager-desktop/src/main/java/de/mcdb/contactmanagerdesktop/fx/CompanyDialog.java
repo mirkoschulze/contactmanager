@@ -1,7 +1,7 @@
 package de.mcdb.contactmanagerdesktop.fx;
 
 import ch.qos.logback.classic.Logger;
-import de.mcdb.contactmanagerdesktop.entity.Company;
+import de.mcdb.contactmanagerapi.datamodel.Company;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;

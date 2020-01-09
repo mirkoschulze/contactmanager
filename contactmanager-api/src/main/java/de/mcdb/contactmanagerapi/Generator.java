@@ -1,4 +1,4 @@
-package de.mcdb.contactmanagersupport;
+package de.mcdb.contactmanagerapi;
 
 /**
  *

@@ -1,4 +1,4 @@
-package de.mcdb.contactmanagerweb.entity;
+package de.mcdb.contactmanagerapi.datamodel;
 
 import java.io.Serializable;
 import java.util.ArrayList;

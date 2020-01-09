@@ -1,9 +1,9 @@
 package de.mcdb.contactmanagerdesktop.fx;
 
 import ch.qos.logback.classic.Logger;
-import de.mcdb.contactmanagerdesktop.Dao;
-import de.mcdb.contactmanagerdesktop.entity.Division;
-import de.mcdb.contactmanagerdesktop.entity.Staffer;
+import de.mcdb.contactmanagerapi.Dao;
+import de.mcdb.contactmanagerapi.datamodel.Division;
+import de.mcdb.contactmanagerapi.datamodel.Staffer;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;

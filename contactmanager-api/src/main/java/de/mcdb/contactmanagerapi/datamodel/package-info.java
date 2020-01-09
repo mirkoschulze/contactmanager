@@ -1,4 +1,4 @@
 /**
  * Contains entity classes to be stored in a database.
  */
-package de.mcdb.contactmanagersupport.datamodel;
+package de.mcdb.contactmanagerapi.datamodel;
