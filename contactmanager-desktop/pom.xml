@@ -27,7 +27,7 @@
         <dependency>
             <groupId>de.mcdb</groupId>
             <artifactId>contactmanager-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${contactmanager.version}</version>
         </dependency>
         <!-- Logging -->
         <!-- Logback -->

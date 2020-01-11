@@ -24,6 +24,12 @@
     </properties>
     
     <dependencies>
+        <!-- Data model -->
+        <dependency>
+            <groupId>de.mcdb</groupId>
+            <artifactId>contactmanager-api</artifactId>
+            <version>${contactmanager.version}</version>
+        </dependency>
         <!-- Web Application -->
         <dependency>
             <groupId>javax</groupId>
@@ -37,12 +43,6 @@
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
             <version>${primafeces.version}</version>
-        </dependency>
-        <!-- Data model -->
-        <dependency>
-            <groupId>de.mcdb</groupId>
-            <artifactId>contactmanager-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
