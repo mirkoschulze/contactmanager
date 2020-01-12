@@ -8,7 +8,7 @@ Existing database scheme named 'contact_db'
 
 <h2>Deutsch</h2>
 <h3>Voraussetzungen:</h3>
-Mys´SQL lauscht auf Port 3306
+MySQL lauscht auf Port 3306
 Vorhandenes Datenbank-Scheme 'contact_db'
 
 
