@@ -15,7 +15,7 @@
     <packaging>jar</packaging>
 
     <name>Contact Manager API</name>
-    <description>Supporting classes for my Contact Manager project.</description>
+    <description>Underlying data classes for my Contact Manager project.</description>
 
     <properties>
         <mysql.version>8.0.18</mysql.version>
