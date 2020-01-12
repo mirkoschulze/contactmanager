@@ -1,5 +1,5 @@
-<h1>Hello andWelcome to my Contact Manager project!
-Willkommen bei meinem Contact Manager Project!</h1>
+<h1>Welcome to my Contact Manager project!</h1>
+<h1>Willkommen bei meinem Contact Manager Project!</h1>
 
 <h2>English</h2>
 <h3>Requirements:</h3>
