@@ -95,7 +95,7 @@ public class Company implements Serializable {
      * @return String - human-readable representation of this {@link Company}
      */
     public String toSimpleLine() {
-        return this.getClass().getSimpleName() + " " + this.name;
+        return this.name;
     }
 
     /**
@@ -106,20 +106,23 @@ public class Company implements Serializable {
      */
     public String toEnhancedLine() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.getClass().getSimpleName());
-        if (this.id != 0) {
-            sb.append(" (").append(this.id).append(')');
-        }
-        sb.append(": ");
         if (this.name != null && !this.name.isEmpty()) {
             sb.append(this.name);
         } else {
             sb.append(DEFAULT_NAME);
         }
+        sb.append(": ");
+        if (this.id != 0) {
+            sb.append(" (ID: ").append(this.id).append(')');
+        }
         if (this.divisions != null && !this.divisions.isEmpty()) {
+            sb.append(", Abteilungen: ");
             this.divisions.forEach(d -> {
-                sb.append(", ").append(d.toSimpleLine());
+                sb.append(d.toSimpleLine()).append(", ");
             });
+            if (sb.toString().endsWith(", ")) {
+                sb.setLength(sb.length() - 2);
+            }
         }
         return sb.toString();
     }
@@ -137,7 +140,7 @@ public class Company implements Serializable {
         return this.name;
     }
 
-    //<editor-fold defaultstate="collapsed" desc="Getter/Setter">
+    //<editor-fold defaultstate="collapsed" desc="Getter/Setter, equals, hashCode">
     public long getId() {
         return id;
     }
@@ -152,6 +155,31 @@ public class Company implements Serializable {
 
     public List<Division> getDivisions() {
         return divisions;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 73 * hash + (int) (this.id ^ (this.id >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Company other = (Company) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
     }
 
     //</editor-fold>

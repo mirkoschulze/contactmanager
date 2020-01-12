@@ -140,7 +140,7 @@ public class Division implements Serializable {
      * @return String - human-readable representation of this {@link Division}
      */
     public String toSimpleLine() {
-        return this.getClass().getSimpleName() + " " + this.name;
+        return this.name;
     }
 
     /**
@@ -151,15 +151,14 @@ public class Division implements Serializable {
      */
     public String toEnhancedLine() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.getClass().getSimpleName());
-        if (this.id != 0) {
-            sb.append("(").append(this.id).append(")");
-        }
-        sb.append(": ");
         if (this.name != null && !this.name.isEmpty()) {
             sb.append(this.name);
         } else {
             sb.append(DEFAULT_NAME);
+        }
+        sb.append(": ");
+        if (this.id != 0) {
+            sb.append("(ID:").append(this.id).append(")");
         }
         if (this.company != null) {
             sb.append(": ").append(this.company.toSimpleLine());

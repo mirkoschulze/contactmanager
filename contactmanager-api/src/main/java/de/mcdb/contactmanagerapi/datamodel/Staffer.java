@@ -24,7 +24,8 @@ import org.hibernate.annotations.OptimisticLocking;
 @OptimisticLocking
 public class Staffer implements Serializable {
 
-    private static final String DEFAULT_NAME = "Annika Sahneschnitte";
+    private static final String DEFAULT_FORENAME = "Annika";
+    private static final String DEFAULT_SURNAME = "Sahneschnitte";
 
     @Id
     @Column(name = "staffer_id")
@@ -96,7 +97,7 @@ public class Staffer implements Serializable {
      * @return String - human-readable representation of this {@link Staffer}
      */
     public String toSimpleLine() {
-        return this.getClass().getSimpleName() + " " + this.foreName + " " + this.surName;
+        return this.foreName + " " + this.surName;
     }
 
     /**
@@ -107,11 +108,7 @@ public class Staffer implements Serializable {
      */
     public String toEnhancedLine() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.getClass().getSimpleName());
-        if (this.id != 0) {
-            sb.append(" (").append(this.id).append(")");
-        }
-        sb.append(": ");
+        
         if (this.foreName != null && !this.foreName.isEmpty() && this.surName != null && !this.surName.isEmpty()) {
             sb.append(this.foreName).append(" ").append(this.surName);
         } else if (this.foreName != null && !this.foreName.isEmpty()) {
@@ -119,18 +116,22 @@ public class Staffer implements Serializable {
         } else if (this.surName != null && !this.surName.isEmpty()) {
             sb.append(this.surName);
         } else {
-            sb.append(DEFAULT_NAME);
+            sb.append(DEFAULT_FORENAME).append(" ").append(DEFAULT_SURNAME);
+        }
+        sb.append(": ");
+        if (this.id != 0) {
+            sb.append(" (ID: ").append(this.id).append(")");
         }
         if (this.division != null) {
-            sb.append(": ").append(this.division.toSimpleLine());
+            sb.append(", Abteilung: ").append(this.division.toSimpleLine());
             if (this.division.getCompany() != null) {
-                sb.append(", ").append(this.getDivision().getCompany().toSimpleLine());
+                sb.append(", Firma: ").append(this.getDivision().getCompany().toSimpleLine());
             }
         }
         return sb.toString();
     }
 
-    //<editor-fold defaultstate="collapsed" desc="Getter/Setter, toString">
+    //<editor-fold defaultstate="collapsed" desc="Getter/Setter, equals, hashCode, toString">
     public long getId() {
         return id;
     }
@@ -154,13 +155,7 @@ public class Staffer implements Serializable {
     public Division getDivision() {
         return division;
     }
-
-    @Override
-    public String toString() {
-        return "Staffer{" + "id=" + id + ", foreName=" + foreName + ", surName=" + surName + ", division=" + division + '}';
-    }
-    //</editor-fold>
-
+    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -186,4 +181,9 @@ public class Staffer implements Serializable {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "Staffer{" + "id=" + id + ", foreName=" + foreName + ", surName=" + surName + ", division=" + division + '}';
+    }
+    //</editor-fold>
 }
