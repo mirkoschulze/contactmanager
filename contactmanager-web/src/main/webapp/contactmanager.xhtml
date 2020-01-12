@@ -3,39 +3,85 @@
     "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:p="http://primefaces.org/ui">
 
     <h:head>
-        <title>TODO supply a title</title>
+        <title>Contact Manager</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
 
     <h:body>
-        <div>TODO write content</div>
+        <h:form>
+            <p:tabView dynamic="true" cache="true" effect="fold">
+                <p:tab title="Firmen">
+                    <p:dataTable var="company" value="#{controller.companies}">
+                        <p:column headerText="Name">
+                            <h:outputText value="#{company.name}"/>
+                        </p:column>
+                        <p:column headerText="ID">
+                            <h:outputText value="#{company.id}"/>
+                        </p:column>
+                        <p:column headerText="Abteilungen">
+                                <p:dataTable var="division" value="#{company.divisions}">
+                                    <p:column headerText="Name">
+                                        <h:outputText value="#{division.name}"/>
+                                    </p:column>
+                                    <p:column headerText="ID">
+                                        <h:outputText value="#{division.id}"/>
+                                    </p:column>
+                                </p:dataTable>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+
+                <p:tab title="Abteilungen">
+                    <p:dataTable var="division" value="#{controller.divisions}">
+                        <p:column headerText="Name">
+                            <h:outputText value="#{division.name}"/>
+                        </p:column>
+                        <p:column headerText="ID">
+                            <h:outputText value="#{division.id}"/>
+                        </p:column>
+                        <p:column headerText="Angestellte">
+                                <p:dataTable var="staffer" value="#{division.staffers}">
+                                    <p:column headerText="Vorame">
+                                        <h:outputText value="#{staffer.foreName}"/>
+                                    </p:column>
+                                    <p:column headerText="Nachame">
+                                        <h:outputText value="#{staffer.surName}"/>
+                                    </p:column>
+                                    <p:column headerText="ID">
+                                        <h:outputText value="#{staffer.id}"/>
+                                    </p:column>
+                                </p:dataTable>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+
+                <p:tab title="Angestellte">
+                    <p:dataTable var="staffer" value="#{controller.staffers}">
+                        <p:column headerText="Vorname">
+                            <h:outputText value="#{staffer.foreName}"/>
+                        </p:column>
+                        <p:column headerText="Nachname">
+                            <h:outputText value="#{staffer.surName}"/>
+                        </p:column>
+                        <p:column headerText="ID">
+                            <h:outputText value="#{staffer.id}"/>
+                        </p:column>
+                        <p:column headerText="Firma">
+                            <h:outputText value="#{staffer.division.company}"/>
+                        </p:column>
+                        <p:column headerText="Abteilung">
+                            <h:outputText value="#{staffer.division}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+            </p:tabView>
+        </h:form>
 
         <h:form>
-            <p:dataTable var="company" value="#{controller.company}">
-                <p:column headerText="Name">
-                    <h:outputText value="#{company.name}"/>
-                </p:column>
-                <p:column headerText="ID">
-                    <h:outputText value="#{company.id}"/>
-                </p:column>
-                <p:column headerText="Abteilungen">
-                    <p:accordionPanel activeIndex="-1">
-                        <p:dataTable var="division" value="#{company.divisions}">
-                            <p:column headerText="Name">
-                                <h:outputText value="#{division.name}"/>
-                            </p:column>
-                            <p:column headerText="ID">
-                                <h:outputText value="#{division.id}"/>
-                            </p:column>
-                    </p:dataTable>
-                </p:accordionPanel>
-            </p:column>
-        </p:dataTable>
-    </h:form>
 
+        </h:form>
     </h:body>
 </html>
