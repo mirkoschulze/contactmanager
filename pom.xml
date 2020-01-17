@@ -11,9 +11,9 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>contactmanager-api</module>
         <module>contactmanager-desktop</module>
         <module>contactmanager-web</module>
-        <module>contactmanager-api</module>
     </modules>
 
     <name>Contact Manager</name>

@@ -10,6 +10,7 @@ import static de.mcdb.contactmanagerapi.datamodel.QStaffer.staffer;
 import de.mcdb.contactmanagerapi.datamodel.Staffer;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +23,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Mirko Schulze
  */
+@Named
 public class Dao {
 
     private static final Logger L = (Logger) LoggerFactory.getLogger(Dao.class);

@@ -10,6 +10,7 @@ import java.util.List;
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,24 +35,14 @@ public class Controller implements Serializable {
     private List<Division> divisions = new ArrayList<>();
     private List<Staffer> staffers = new ArrayList<>();
 
-//    private Dao dao = new Dao();
+    @Inject
+    private Dao dao;
+
     @PostConstruct
     public void init() {
-        Company genCompany = new Company("Firma 1");
-        Division genDivision = new Division("Abteilung 1", genCompany);
-        Staffer genStaffer = new Staffer("Vorname 1", "Nachname 1", genDivision);
-
-        this.companies.add(genCompany);
-        this.divisions.add(genDivision);
-        this.staffers.add(genStaffer);
-
-        genCompany = new Company("Firma 2");
-        genDivision = new Division("Abteilung 2", genCompany);
-        genStaffer = new Staffer("Vorname 2", "Nachname 2", genDivision);
-
-        this.companies.add(genCompany);
-        this.divisions.add(genDivision);
-        this.staffers.add(genStaffer);
+        this.companies = dao.findAllFromCompany();
+        this.divisions = dao.findAllFromDivision();
+        this.staffers = dao.findAllFromStaffer();
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getter / Setter">

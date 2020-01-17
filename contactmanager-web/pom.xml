@@ -20,7 +20,7 @@
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <primafeces.version>7.0</primafeces.version>
-        <javaee.version>8.0</javaee.version>
+        <javaee.version>7.0</javaee.version>
     </properties>
     
     <dependencies>
