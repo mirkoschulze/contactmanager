@@ -15,11 +15,11 @@ import org.slf4j.LoggerFactory;
  * @author Mirko
  */
 public class PersistenceWriter {
-    
+
     private static final Logger L = LoggerFactory.getLogger(PersistenceWriter.class);
     private final String FILE_NAME_WITH_PATH = ".\\src\\main\\resources\\META-INF\\persistence.xml";
 
-    public void writePersistenceXML(String user, String password, boolean firstTime) {
+    public void writePersistenceXML(String user, String password) {
         XMLOutputFactory factory = XMLOutputFactory.newInstance();
         try {
             XMLStreamWriter writer = factory.createXMLStreamWriter(new OutputStreamWriter(new FileOutputStream(new File(FILE_NAME_WITH_PATH)), "UTF-8"));
@@ -85,11 +85,7 @@ public class PersistenceWriter {
 
             writer.writeStartElement("property");
             writer.writeAttribute("name", "hibernate.hbm2ddl.auto");
-            if (firstTime) {
-                writer.writeAttribute("value", "create");
-            } else {
-                writer.writeAttribute("value", "update");
-            }
+            writer.writeAttribute("value", "update");
             writer.writeEndElement();
 
             writer.writeStartElement("property");
@@ -114,5 +110,5 @@ public class PersistenceWriter {
             L.info("Exception in [{}] : {}", PersistenceWriter.class.getSimpleName(), e);
         }
     }
-    
+
 }
