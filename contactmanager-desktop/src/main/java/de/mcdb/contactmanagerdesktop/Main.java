@@ -1,7 +1,6 @@
 package de.mcdb.contactmanagerdesktop;
 
 import com.sun.javafx.application.LauncherImpl;
-import de.mcdb.contactmanagerapi.HibernateUtils;
 
 /**
  * Main class with {@link #main(String[])} as starting point.
@@ -13,8 +12,6 @@ import de.mcdb.contactmanagerapi.HibernateUtils;
  */
 public class Main {
     
-    private static final String PERSISTENCE_UNIT = "ContactManagerDesktopPU";
-
     //TODO eigene daos im modul, abstrakt in api?
     //TODO tests
     //TODO exception handling persistence
