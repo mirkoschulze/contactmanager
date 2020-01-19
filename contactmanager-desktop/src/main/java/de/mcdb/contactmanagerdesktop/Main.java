@@ -13,6 +13,12 @@ import com.sun.javafx.application.LauncherImpl;
 public class Main {
 
     //TODO tests
+    //TODO exception handling persistence
+    //TODO Hibernator wieder zu HibernateUtils
+    //TODO preloader progress handling
+    //TODO aufräumen
+    //TODO fehler zeigt immer nur fxml fehler
+    //TODO doku
     /**
      * Calls {@link LauncherImpl#launchApplication(Class, Class, String[])} with
      * {@link ContactManager} and {@link ContactManagerPreloader} to start the
