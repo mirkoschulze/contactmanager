@@ -33,24 +33,14 @@ public class Controller implements Serializable {
     private List<Division> divisions = new ArrayList<>();
     private List<Staffer> staffers = new ArrayList<>();
 
-//    private Dao dao = new Dao();
+    private Dao dao = new Dao();
+
     @PostConstruct
     public void init() {
-        Company genCompany = new Company("Firma 1");
-        Division genDivision = new Division("Abteilung 1", genCompany);
-        Staffer genStaffer = new Staffer("Vorname 1", "Nachname 1", genDivision);
+        this.companies = this.dao.findAllFromCompany();
+        this.divisions = this.dao.findAllFromDivision();
+        this.staffers = this.dao.findAllFromStaffer();
 
-        this.companies.add(genCompany);
-        this.divisions.add(genDivision);
-        this.staffers.add(genStaffer);
-
-        genCompany = new Company("Firma 2");
-        genDivision = new Division("Abteilung 2", genCompany);
-        genStaffer = new Staffer("Vorname 2", "Nachname 2", genDivision);
-
-        this.companies.add(genCompany);
-        this.divisions.add(genDivision);
-        this.staffers.add(genStaffer);
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getter / Setter">
