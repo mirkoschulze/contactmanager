@@ -18,44 +18,10 @@
     <description>Underlying data classes for my Contact Manager project.</description>
 
     <properties>
-        <mysql.version>8.0.18</mysql.version>
-        <hibernate.version>5.4.4.Final</hibernate.version>
-        <hibernate.annotations.version>5.1.0.Final</hibernate.annotations.version>
-        <hibernate.jpa.version>1.0.2.Final</hibernate.jpa.version>
         <querydsl.version>4.2.1</querydsl.version>
-        <logback.version>1.2.3</logback.version>
     </properties>
 
     <dependencies>
-        <!-- Database -->
-        <!-- MySQL -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.version}</version>
-        </dependency>
-        <!-- Hibernate -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate.common</groupId>
-            <artifactId>hibernate-commons-annotations</artifactId>
-            <version>${hibernate.annotations.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.1-api</artifactId>
-            <version>${hibernate.jpa.version}</version>
-        </dependency>
         <!-- QueryDSL -->
         <dependency>
             <groupId>com.querydsl</groupId>
@@ -66,18 +32,6 @@
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-sql</artifactId>
             <version>${querydsl.version}</version>
-        </dependency>
-        <!-- Logging -->
-        <!-- Logback -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>${logback.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
         </dependency>
     </dependencies>
 

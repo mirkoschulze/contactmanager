@@ -11,9 +11,9 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>contactmanager-api</module>
         <module>contactmanager-desktop</module>
         <module>contactmanager-web</module>
-        <module>contactmanager-api</module>
     </modules>
 
     <name>Contact Manager</name>
@@ -33,10 +33,43 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <contactmanager.version>1.0-SNAPSHOT</contactmanager.version>
+        <mysql.version>8.0.18</mysql.version>
+        <hibernate.version>5.4.4.Final</hibernate.version>
+        <hibernate.annotations.version>5.1.0.Final</hibernate.annotations.version>
+        <hibernate.jpa.version>1.0.2.Final</hibernate.jpa.version>
         <slf4j.version>1.7.29</slf4j.version>
     </properties>
 
     <dependencies>
+        <!-- Database -->
+        <!-- MySQL -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+        <!-- Hibernate -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.common</groupId>
+            <artifactId>hibernate-commons-annotations</artifactId>
+            <version>${hibernate.annotations.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>${hibernate.jpa.version}</version>
+        </dependency>
         <!-- Logging -->
         <!-- SLF4J -->
         <dependency>
