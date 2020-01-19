@@ -1,6 +1,10 @@
 package de.mcdb.contactmanagerdesktop;
 
 import de.mcdb.contactmanagerdesktop.fx.UserDataDialog;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -62,19 +66,27 @@ public class ContactManagerPreloader extends Preloader {
             try {
                 switch (stateChangeNotification.getType()) {
                     case BEFORE_LOAD:
-                        System.out.println("before load");
                         Map<String, String> data = askForUserData();
-                        es.execute(() -> {
-                            boolean first = false;
-                            if (data.get("first").equalsIgnoreCase("true")) {
-                                first = true;
-                            }
-                            this.writer.writePersistenceXML(data.get("user"), data.get("pw"), first);
-                        });
-                        L.info("Writing persistence with user=" + data.get("user") + ", pw=" + data.get("pw"));
+                        if (!data.isEmpty()) {
+                            String user = data.get("user");
+                            String pw = data.get("pw");
+                            es.execute(() -> {
+                                try (Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/?serverTimezone=UTC", user, pw)) {
+                                    Statement s = c.createStatement();
+                                    s.execute("create database if not exists contact_db;");
+                                } catch (SQLException e) {
+                                    L.info("{}", e);
+                                }
+                            });
+                            es.execute(() -> {
+                                this.writer.writePersistenceXML(user, pw);
+                            });
+                        } else {
+                            System.exit(0);
+                        }
                         break;
                     case BEFORE_INIT:
-                        Thread.sleep(5000);
+                        Thread.sleep(3000);
                         es.shutdown();
                         break;
                     case BEFORE_START:
@@ -108,7 +120,6 @@ public class ContactManagerPreloader extends Preloader {
         new UserDataDialog().showAndWait().ifPresent(ud -> {
             data.put("user", ud.get("user"));
             data.put("pw", ud.get("pw"));
-            data.put("first", ud.get("first"));
         });
         return data;
     }
