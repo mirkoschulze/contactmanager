@@ -24,8 +24,7 @@ import org.slf4j.LoggerFactory;
 public class ContactManager extends Application {
 
     private static final Logger L = (Logger) LoggerFactory.getLogger(ContactManager.class);
-    private static final String FXML_PATH = "/fxml/MainScene.fxml";
-    private final FXMLLoader loader = new FXMLLoader(getClass().getResource(FXML_PATH));
+    private final FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainScene.fxml"));
     private Scene scene;
 
     /**
@@ -65,9 +64,9 @@ public class ContactManager extends Application {
         } catch (IOException | IllegalStateException e) {
             L.info("Catching [{}] in [{}]", e.toString(), ContactManager.class.getSimpleName());
 
-            Label label = new Label("Sorray: " + e.getClass().getSimpleName());
+            Label label = new Label("Da ist wohl etwas schiefgegangen =/ ");
 
-            TextArea textArea = new TextArea(e.toString());
+            TextArea textArea = new TextArea("\nFehler=\n" + e.getClass().getSimpleName() + "\n\nFehlermeldung=\n" + e + "\n\n\nKontakt:\nmail: mirko@mail");
             textArea.setWrapText(true);
             textArea.setEditable(false);
 
@@ -80,7 +79,7 @@ public class ContactManager extends Application {
             BorderPane pane = new BorderPane(textArea);
             pane.setTop(label);
             pane.setBottom(btn);
-            this.scene = new Scene(pane, 500, 400);
+            this.scene = new Scene(pane, 600, 400);
         }
     }
 
