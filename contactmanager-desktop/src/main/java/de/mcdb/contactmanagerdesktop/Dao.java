@@ -11,7 +11,6 @@ import de.mcdb.contactmanagerapi.datamodel.Staffer;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
 import org.slf4j.LoggerFactory;
 
 /**
