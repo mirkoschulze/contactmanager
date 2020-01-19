@@ -1,4 +1,4 @@
-package de.mcdb.contactmanagerapi;
+package de.mcdb.contactmanagerdesktop;
 
 import ch.qos.logback.classic.Logger;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -11,6 +11,7 @@ import de.mcdb.contactmanagerapi.datamodel.Staffer;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -26,7 +27,17 @@ public class Dao {
 
     private static final Logger L = (Logger) LoggerFactory.getLogger(Dao.class);
 
-    private final EntityManager em = HibernateUtils.getEntityManager();
+    private Hibernator hibernator;
+    private final EntityManager EM;
+
+    /**
+     *
+     * @param persistenceUnit name of the used persistence unit
+     */
+    public Dao(String persistenceUnit) {
+        this.hibernator = new Hibernator(persistenceUnit);
+        this.EM = this.hibernator.getEntityManager();
+    }
 
     //<editor-fold defaultstate="collapsed" desc="findAllFrom">
     /**
@@ -38,7 +49,7 @@ public class Dao {
      */
     public List<Staffer> findAllFromStaffer() {
         L.info("Quering for all [{}] entities", Staffer.class.getSimpleName());
-        return new JPAQuery<>(em).select(staffer).from(staffer).fetch();
+        return new JPAQuery<>(EM).select(staffer).from(staffer).fetch();
     }
 
     /**
@@ -50,7 +61,7 @@ public class Dao {
      */
     public List<Division> findAllFromDivision() {
         L.info("Quering for all [{}] entities", Division.class.getSimpleName());
-        return new JPAQuery<>(em).select(division).from(division).fetch();
+        return new JPAQuery<>(EM).select(division).from(division).fetch();
     }
 
     /**
@@ -62,7 +73,7 @@ public class Dao {
      */
     public List<Company> findAllFromCompany() {
         L.info("Quering for all [{}] entities", Company.class.getSimpleName());
-        return new JPAQuery<>(em).select(company).from(company).fetch();
+        return new JPAQuery<>(EM).select(company).from(company).fetch();
     }
 
     //</editor-fold>
@@ -76,7 +87,7 @@ public class Dao {
      */
     public Staffer findStafferById(long id) {
         L.info("Quering for [{}] with ID {}", Staffer.class.getSimpleName(), id);
-        return em.find(Staffer.class, id);
+        return EM.find(Staffer.class, id);
     }
 
     /**
@@ -88,7 +99,7 @@ public class Dao {
      */
     public Division findDivisionById(long id) {
         L.info("Quering for [{}] with ID {}", Division.class.getSimpleName(), id);
-        return em.find(Division.class, id);
+        return EM.find(Division.class, id);
     }
 
     /**
@@ -100,7 +111,7 @@ public class Dao {
      */
     public Company findCompanyById(long id) {
         L.info("Quering for [{}] with ID {}", Company.class.getSimpleName(), id);
-        return em.find(Company.class, id);
+        return EM.find(Company.class, id);
     }
 
     //</editor-fold>
@@ -112,15 +123,15 @@ public class Dao {
      */
     public void persistStaffer(Staffer staffer) {
         L.info("Persisting [{}] {}", Staffer.class.getSimpleName(), staffer.toEnhancedLine());
-        em.getTransaction().begin();
+        EM.getTransaction().begin();
         if (staffer.getDivision() != null) {
-            Division division = em.find(Division.class, staffer.getDivision().getId());
+            Division division = EM.find(Division.class, staffer.getDivision().getId());
             division.addStaffer(staffer);
             L.info("[{}] {} added to [{}] {}", Staffer.class.getSimpleName(), staffer.toSimpleLine(), Division.class.getSimpleName(), division.toSimpleLine());
         }
-        em.persist(staffer);
+        EM.persist(staffer);
         L.info("[{}] {} persisted", Staffer.class.getSimpleName(), staffer.toSimpleLine());
-        em.getTransaction().commit();
+        EM.getTransaction().commit();
     }
 
     /**
@@ -130,15 +141,15 @@ public class Dao {
      */
     public void persistDivision(Division division) {
         L.info("Persisting [{}] {}", Division.class.getSimpleName(), division.toSimpleLine());
-        em.getTransaction().begin();
+        EM.getTransaction().begin();
         if (division.getCompany() != null) {
-            Company company = em.find(Company.class, division.getCompany().getId());
+            Company company = EM.find(Company.class, division.getCompany().getId());
             company.addDivision(division);
             L.info("[{}] {} added to [{}] {}", Division.class.getSimpleName(), division.toSimpleLine(), Company.class.getSimpleName(), company.toSimpleLine());
         }
-        em.persist(division);
+        EM.persist(division);
         L.info("[{}] {} persisted", Division.class.getSimpleName(), division.toSimpleLine());
-        em.getTransaction().commit();
+        EM.getTransaction().commit();
     }
 
     /**
@@ -148,10 +159,10 @@ public class Dao {
      */
     public void persistCompany(Company company) {
         L.info("Persisting [{}] {}", Company.class.getSimpleName(), company.toSimpleLine());
-        em.getTransaction().begin();
-        em.persist(company);
+        EM.getTransaction().begin();
+        EM.persist(company);
         L.info("[{}] {} persisted", Company.class.getSimpleName(), company.toSimpleLine());
-        em.getTransaction().commit();
+        EM.getTransaction().commit();
     }
 
     //</editor-fold>
@@ -165,19 +176,19 @@ public class Dao {
      */
     public void updateStaffer(long id, Staffer updatedStaffer) {
         L.info("Updating [{}] with id {}", Staffer.class.getSimpleName(), id);
-        em.getTransaction().begin();
+        EM.getTransaction().begin();
 
-        Staffer staffer = em.find(Staffer.class, id);
+        Staffer staffer = EM.find(Staffer.class, id);
 
         if (updatedStaffer.getDivision() != null) {
-            Division division = em.find(Division.class, updatedStaffer.getDivision().getId());
+            Division division = EM.find(Division.class, updatedStaffer.getDivision().getId());
 
             staffer.setForeName(updatedStaffer.getForeName());
             staffer.setSurName(updatedStaffer.getSurName());
             division.addStaffer(staffer);
             L.info("[{}] {} added to [{}] {}", Staffer.class.getSimpleName(), staffer.toSimpleLine(), Division.class.getSimpleName(), division.toSimpleLine());
         }
-        em.getTransaction().commit();
+        EM.getTransaction().commit();
 
         L.info("[{}] {} updated", Staffer.class.getSimpleName(), staffer.toSimpleLine());
     }
@@ -191,12 +202,12 @@ public class Dao {
      */
     public void updateDivision(long id, Division updatedDivision) {
         L.info("Updating [{}] with id {}", Division.class.getSimpleName(), id);
-        em.getTransaction().begin();
+        EM.getTransaction().begin();
 
-        Division division = em.find(Division.class, id);
+        Division division = EM.find(Division.class, id);
 
         if (updatedDivision.getCompany() != null) {
-            Company company = em.find(Company.class, updatedDivision.getCompany().getId());
+            Company company = EM.find(Company.class, updatedDivision.getCompany().getId());
 
             division.setName(updatedDivision.getName());
             division.setStaffers(updatedDivision.getStaffers());
@@ -204,7 +215,7 @@ public class Dao {
             L.info("[{}] {} added to [{}] {}", Division.class.getSimpleName(), division.toSimpleLine(), Company.class.getSimpleName(), company.toSimpleLine());
         }
 
-        em.getTransaction().commit();
+        EM.getTransaction().commit();
 
         L.info("[{}] {} updated", Division.class.getSimpleName(), division.toSimpleLine());
     }
@@ -218,13 +229,13 @@ public class Dao {
      */
     public void updateCompany(long id, Company updatedCompany) {
         L.info("Updating [{}] with id {}", Division.class.getSimpleName(), id);
-        em.getTransaction().begin();
+        EM.getTransaction().begin();
 
-        Company company = em.find(Company.class, id);
+        Company company = EM.find(Company.class, id);
 
         company.setName(updatedCompany.getName());
 
-        em.getTransaction().commit();
+        EM.getTransaction().commit();
 
         L.info("[{}] {} updated", Company.class.getSimpleName(), company.toSimpleLine());
     }
@@ -239,18 +250,18 @@ public class Dao {
     public void removeStaffer(long id) {
         L.info("Removing [{}] with id {}", Staffer.class.getSimpleName(), id);
 
-        em.getTransaction().begin();
-        Staffer staffer = em.find(Staffer.class, id);
+        EM.getTransaction().begin();
+        Staffer staffer = EM.find(Staffer.class, id);
 
         if (staffer.getDivision() != null) {
-            Division division = em.find(Division.class, staffer.getDivision().getId());
+            Division division = EM.find(Division.class, staffer.getDivision().getId());
             division.removeStaffer(staffer);
             L.info("[{}] {} removed from [{}] {}", Staffer.class.getSimpleName(), staffer.toSimpleLine(), Division.class.getSimpleName(), staffer.getDivision().toSimpleLine());
         }
 
-        em.remove(staffer);
+        EM.remove(staffer);
 
-        em.getTransaction().commit();
+        EM.getTransaction().commit();
         L.info("[{}] {} removed", Staffer.class.getSimpleName(), staffer.toSimpleLine());
     }
 
@@ -262,11 +273,11 @@ public class Dao {
     public void removeDivision(long id) {
         L.info("Removing [{}] with id {}", Division.class.getSimpleName(), id);
 
-        em.getTransaction().begin();
-        Division division = em.find(Division.class, id);
+        EM.getTransaction().begin();
+        Division division = EM.find(Division.class, id);
 
         if (division.getCompany() != null) {
-            Company company = em.find(Company.class, division.getCompany().getId());
+            Company company = EM.find(Company.class, division.getCompany().getId());
             company.removeDivision(division);
             L.info("[{}] {} removed from [{}] {}", Staffer.class.getSimpleName(), division.toSimpleLine(), Company.class.getSimpleName(), company.toSimpleLine());
         }
@@ -275,14 +286,14 @@ public class Dao {
             List<Staffer> staffers = new ArrayList<>();
             staffers.addAll(division.getStaffers());
             for (Staffer staffer : staffers) {
-                staffer = em.find(Staffer.class, staffer.getId());
+                staffer = EM.find(Staffer.class, staffer.getId());
                 division.removeStaffer(staffer);
                 L.info("[{}] {} removed from [{}] {}", Staffer.class.getSimpleName(), staffer.toSimpleLine(), Division.class.getSimpleName(), division.toSimpleLine());
             }
         }
 
-        em.remove(division);
-        em.getTransaction().commit();
+        EM.remove(division);
+        EM.getTransaction().commit();
         L.info("[{}] {} removed", Division.class.getSimpleName(), division.toSimpleLine());
     }
 
@@ -293,22 +304,22 @@ public class Dao {
      */
     public void removeCompany(long id) {
         L.info("Removing [{}] with id {}", Company.class.getSimpleName(), id);
-        em.getTransaction().begin();
+        EM.getTransaction().begin();
 
-        Company company = em.find(Company.class, id);
+        Company company = EM.find(Company.class, id);
 
         if (company.getDivisions() != null && !company.getDivisions().isEmpty()) {
             List<Division> divisions = new ArrayList<>();
             divisions.addAll(company.getDivisions());
             for (Division division : divisions) {
-                division = em.find(Division.class, division.getId());
+                division = EM.find(Division.class, division.getId());
                 company.removeDivision(division);
                 L.info("[{}] {} removed from [{}] {}", Staffer.class.getSimpleName(), division.toSimpleLine(), Company.class.getSimpleName(), company.toSimpleLine());
             }
         }
 
-        em.remove(company);
-        em.getTransaction().commit();
+        EM.remove(company);
+        EM.getTransaction().commit();
         L.info("[{}] {} removed", Company.class.getSimpleName(), company.toSimpleLine());
     }
     //</editor-fold>
@@ -318,15 +329,19 @@ public class Dao {
      */
     public void destroy() {
         L.info("Destroying [{}]", Dao.class.getSimpleName());
-        if (em != null && em.isOpen()) {
-            if (em.getTransaction().isActive()) {
+        if (this.EM != null && this.EM.isOpen()) {
+            if (this.EM.getTransaction().isActive()) {
                 L.info("Clearing [{}]", EntityManager.class.getSimpleName());
-                em.clear();
+                this.EM.clear();
             }
             L.info("Closing [{}]", EntityManager.class.getSimpleName());
-            em.close();
+            this.EM.close();
+        }
+        if (this.hibernator != null) {
+            this.hibernator.shutdown();
         }
         L.info("[{}] destroyed", Dao.class.getSimpleName());
+
     }
 
 }

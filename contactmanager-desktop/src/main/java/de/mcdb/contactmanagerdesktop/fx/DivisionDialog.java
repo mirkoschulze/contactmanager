@@ -1,9 +1,9 @@
 package de.mcdb.contactmanagerdesktop.fx;
 
 import ch.qos.logback.classic.Logger;
-import de.mcdb.contactmanagerapi.Dao;
 import de.mcdb.contactmanagerapi.datamodel.Company;
 import de.mcdb.contactmanagerapi.datamodel.Division;
+import de.mcdb.contactmanagerdesktop.Dao;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
@@ -53,7 +53,7 @@ public class DivisionDialog extends Dialog<Division> {
 
         Label companyLabel = new Label("Firma: ");
         ComboBox<Company> companySelection = new ComboBox<>(FXCollections
-                .observableArrayList(new Dao().findAllFromCompany()));
+                .observableArrayList(new Dao("ContactManagerDesktopPU").findAllFromCompany()));
         companySelection.setTooltip(new Tooltip("Optional: Wähle ein Firma aus!"));
 
         HBox companyHbox = new HBox(5, companyLabel, companySelection);

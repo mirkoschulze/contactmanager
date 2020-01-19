@@ -1,0 +1,81 @@
+package de.mcdb.contactmanagerdesktop.fx;
+
+import java.util.HashMap;
+import java.util.Map;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ *
+ * @author Mirko
+ */
+public class UserDataDialog extends Dialog<Map<String, String>> {
+
+    private static final Logger L = LoggerFactory.getLogger(UserDataDialog.class);
+
+    public UserDataDialog() {
+        Map<String, String> userData = new HashMap<>();
+
+        Label userLabel = new Label("username");
+        TextField userInput = new TextField();
+        HBox userBox = new HBox(5, userLabel, userInput);
+
+        Label pwLabel = new Label("password");
+        PasswordField pwInput = new PasswordField();
+        HBox pwBox = new HBox(5, pwLabel, pwInput);
+        
+        Label firstTimeLabel = new Label("erstes mal");
+        CheckBox firstTimeSelection = new CheckBox();
+        HBox firstTimeBox = new HBox(5, firstTimeLabel, firstTimeSelection);
+
+        VBox vbox = new VBox(5, userBox, pwBox, firstTimeBox);
+
+        this.getDialogPane().setContent(vbox);
+
+        this.getDialogPane().getButtonTypes().addAll(ButtonType.FINISH, ButtonType.CANCEL);
+        Button finishButton = (Button) this.getDialogPane().lookupButton(ButtonType.FINISH);
+
+        finishButton.addEventFilter(ActionEvent.ACTION, eh -> {
+            if (userInput.getText().isEmpty()) {
+                L.info("Consuming [{}] : no valid name entered", eh.getClass().getSimpleName());
+                eh.consume();
+                new Alert(Alert.AlertType.ERROR, "Gib einen Namen ein").show();
+            } else if (pwInput.getText().isEmpty()) {
+                L.info("Consuming [{}] : no valid password entered", eh.getClass().getSimpleName());
+                eh.consume();
+                new Alert(Alert.AlertType.ERROR, "Gib ein Passwort ein").show();
+            } else {
+                userData.put("user", userInput.getText());
+                userData.put("pw", pwInput.getText());
+                if(firstTimeSelection.isSelected()){
+                    userData.put("first", "true");
+                }else{
+                    userData.put("first", "false");
+                }
+            }
+        });
+
+        this.setResultConverter(type -> {
+            L.info("Handling [{}] {}", ButtonType.class.getSimpleName(), type);
+            if (type == ButtonType.FINISH) {
+                L.info("Returning user data {}, {}, {}", userInput.getText(), pwInput.getText(), firstTimeSelection.isSelected());
+                return userData;
+            } else {
+                L.info("Returning null");
+                return null;
+            }
+        });
+    }
+
+}

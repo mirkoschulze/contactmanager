@@ -1,6 +1,5 @@
 package de.mcdb.contactmanagerdesktop;
 
-import de.mcdb.contactmanagerapi.HibernateUtils;
 import ch.qos.logback.classic.Logger;
 import java.io.IOException;
 import javafx.application.Application;
@@ -65,12 +64,11 @@ public class ContactManager extends Application {
             this.scene = new Scene(parent);
         } catch (IOException | IllegalStateException e) {
             L.info("Catching [{}] in [{}]", e.toString(), ContactManager.class.getSimpleName());
-            HibernateUtils.shutdown();
 
             Label label = new Label("Sorray: " + e.getClass().getSimpleName());
 
-            String exceptionText = e.getLocalizedMessage() + "\n\n" + e.toString();
-            TextArea textArea = new TextArea(exceptionText);
+            TextArea textArea = new TextArea(e.toString());
+            textArea.setWrapText(true);
             textArea.setEditable(false);
 
             Button btn = new Button("Schließen");

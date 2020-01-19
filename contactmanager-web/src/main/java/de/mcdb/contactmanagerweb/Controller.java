@@ -1,6 +1,5 @@
 package de.mcdb.contactmanagerweb;
 
-import de.mcdb.contactmanagerapi.Dao;
 import de.mcdb.contactmanagerapi.datamodel.Company;
 import de.mcdb.contactmanagerapi.datamodel.Division;
 import de.mcdb.contactmanagerapi.datamodel.Staffer;

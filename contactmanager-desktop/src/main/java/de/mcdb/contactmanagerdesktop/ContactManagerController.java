@@ -2,8 +2,6 @@ package de.mcdb.contactmanagerdesktop;
 
 //<editor-fold defaultstate="collapsed" desc="imports">
 import ch.qos.logback.classic.Logger;
-import de.mcdb.contactmanagerapi.Dao;
-import de.mcdb.contactmanagerapi.HibernateUtils;
 import de.mcdb.contactmanagerapi.datamodel.Company;
 import de.mcdb.contactmanagerapi.datamodel.Division;
 import de.mcdb.contactmanagerapi.datamodel.Staffer;
@@ -58,14 +56,14 @@ import org.slf4j.LoggerFactory;
 public class ContactManagerController implements Initializable {
 
     private static final Logger L = (Logger) LoggerFactory.getLogger(ContactManagerController.class);
-
+    
     private static final String ID_NOT_FOUND_ERROR_MESSAGE = "Kein Eintrag mit der ID gefunden.";
 
     private static final String[] SQL_OPERATIONS = {"SELECT * FROM", "INSERT INTO", "DELETE FROM"};
 
     private static final String[] TABLE_NAMES = {"STAFFER", "DIVISION", "COMPANY"};
 
-    private final Dao dao = new Dao();
+    private final Dao dao = new Dao("ContactManagerDesktopPU");
 
     private final ExecutorService es = Executors.newCachedThreadPool();
 
@@ -804,9 +802,8 @@ public class ContactManagerController implements Initializable {
     public void exit() {
         if (new Alert(Alert.AlertType.CONFIRMATION, "Wollen Sie die Anwendung beenden?").showAndWait().get() == ButtonType.OK) {
             L.info("Shutting down the application");
-            HibernateUtils.shutdown();
-            this.dao.destroy();
             this.es.shutdown();
+            this.dao.destroy();
 
             Stage stage = (Stage) this.exitBtn.getScene().getWindow();
             stage.close();
