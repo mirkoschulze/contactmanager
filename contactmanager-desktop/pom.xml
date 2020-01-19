@@ -29,6 +29,17 @@
             <artifactId>contactmanager-api</artifactId>
             <version>${contactmanager.version}</version>
         </dependency>
+        <!-- JavaFX -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>11.0.1</version>
+        </dependency>     
+        <dependency>         
+            <groupId>org.openjfx</groupId>         
+            <artifactId>javafx-fxml</artifactId>         
+            <version>11.0.1</version>     
+        </dependency>
         <!-- Logging -->
         <!-- Logback -->
         <dependency>
@@ -55,6 +66,14 @@
                             <mainClass>${main.class}</mainClass>
                         </manifest>
                     </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.3</version>
+                <configuration>
+                    <mainClass>de.mcdb.contactmanagerdesktop.Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>

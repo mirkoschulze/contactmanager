@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +39,6 @@ public class Controller implements Serializable {
         this.companies = this.dao.findAllFromCompany();
         this.divisions = this.dao.findAllFromDivision();
         this.staffers = this.dao.findAllFromStaffer();
-
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getter / Setter">

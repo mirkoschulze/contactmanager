@@ -19,6 +19,7 @@
 
     <properties>
         <querydsl.version>4.2.1</querydsl.version>
+        <javax.annotation.version>1.3.2</javax.annotation.version>
     </properties>
 
     <dependencies>
@@ -32,6 +33,12 @@
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-sql</artifactId>
             <version>${querydsl.version}</version>
+        </dependency>
+        <!-- required for QueryDSL -->
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>${javax.annotation.version}</version>
         </dependency>
     </dependencies>
 
