@@ -10,7 +10,6 @@ import static de.mcdb.contactmanagerapi.datamodel.QStaffer.staffer;
 import de.mcdb.contactmanagerapi.datamodel.Staffer;
 import java.util.ArrayList;
 import java.util.List;
-import javax.inject.Named;
 import javax.persistence.EntityManager;
 import org.slf4j.LoggerFactory;
 
@@ -23,22 +22,11 @@ import org.slf4j.LoggerFactory;
  *
  * @author Mirko Schulze
  */
-@Named
 public class Dao {
 
     private static final Logger L = (Logger) LoggerFactory.getLogger(Dao.class);
 
-    private Hibernator hibernator;
-    private final EntityManager EM;
-
-    /**
-     *
-     * @param persistenceUnit name of the used persistence unit
-     */
-    public Dao(String persistenceUnit) {
-        this.hibernator = new Hibernator(persistenceUnit);
-        this.EM = this.hibernator.getEntityManager();
-    }
+    private final EntityManager EM = HibernateUtils.getEntityManager();
 
     //<editor-fold defaultstate="collapsed" desc="findAllFrom">
     /**
@@ -337,9 +325,6 @@ public class Dao {
             }
             L.info("Closing [{}]", EntityManager.class.getSimpleName());
             this.EM.close();
-        }
-        if (this.hibernator != null) {
-            this.hibernator.shutdown();
         }
         L.info("[{}] destroyed", Dao.class.getSimpleName());
 

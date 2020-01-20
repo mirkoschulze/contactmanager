@@ -14,8 +14,6 @@ public class Main {
     
     //TODO eigene daos im modul, abstrakt in api?
     //TODO tests
-    //TODO exception handling persistence
-    //TODO Hibernator wieder zu HibernateUtils
     //TODO preloader progress handling
     //TODO aufräumen
     //TODO fehler zeigt immer nur fxml fehler

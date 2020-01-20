@@ -54,7 +54,8 @@ public class ContactManager extends Application {
      * Tries to load the {@link Scene} for the main application {@link Stage}.
      * <p>
      * Catches an {@link IOException} or {@link IllegalStateException} by
-     * building an alternative {@link Scene} with a respective error message.
+     * closing resources and building an alternative {@link Scene} with a
+     * respective error message.
      */
     @Override
     public void init() {
@@ -63,6 +64,8 @@ public class ContactManager extends Application {
             this.scene = new Scene(parent);
         } catch (IOException | IllegalStateException e) {
             L.info("Catching [{}] in [{}]", e.toString(), ContactManager.class.getSimpleName());
+            ContactManagerController controller = this.loader.<ContactManagerController>getController();
+            controller.shutdown();
 
             Label label = new Label("Da ist wohl etwas schiefgegangen =/ ");
 

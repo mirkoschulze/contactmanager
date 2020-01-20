@@ -75,7 +75,8 @@ public class ContactManagerPreloader extends Preloader {
                                     Statement s = c.createStatement();
                                     s.execute("create database if not exists contact_db;");
                                 } catch (SQLException e) {
-                                    L.info("{}", e);
+                                    L.error("Catching {} in [{}], shutting down the program via System.exit(0)", e, ContactManagerPreloader.class);
+                                    System.exit(0);
                                 }
                             });
                             es.execute(() -> {

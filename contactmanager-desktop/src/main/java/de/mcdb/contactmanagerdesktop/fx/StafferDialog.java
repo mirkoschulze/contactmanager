@@ -61,7 +61,7 @@ public class StafferDialog extends Dialog<Staffer> {
 
         Label divisionLabel = new Label("Abteilung: ");
         ComboBox<Division> divisionSelection = new ComboBox<>(FXCollections
-                .observableArrayList(new Dao("ContactManagerDesktopPU").findAllFromDivision()));
+                .observableArrayList(new Dao().findAllFromDivision()));
         divisionSelection.setTooltip(new Tooltip("Optional: Wähle eine Abteilung aus!"));
 
         HBox divisionHbox = new HBox(5, divisionLabel, divisionSelection);

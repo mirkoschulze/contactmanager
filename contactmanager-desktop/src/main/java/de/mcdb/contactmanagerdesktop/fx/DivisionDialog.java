@@ -53,7 +53,7 @@ public class DivisionDialog extends Dialog<Division> {
 
         Label companyLabel = new Label("Firma: ");
         ComboBox<Company> companySelection = new ComboBox<>(FXCollections
-                .observableArrayList(new Dao("ContactManagerDesktopPU").findAllFromCompany()));
+                .observableArrayList(new Dao().findAllFromCompany()));
         companySelection.setTooltip(new Tooltip("Optional: Wähle ein Firma aus!"));
 
         HBox companyHbox = new HBox(5, companyLabel, companySelection);

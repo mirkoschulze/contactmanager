@@ -56,14 +56,17 @@ import org.slf4j.LoggerFactory;
 public class ContactManagerController implements Initializable {
 
     private static final Logger L = (Logger) LoggerFactory.getLogger(ContactManagerController.class);
-    
+
     private static final String ID_NOT_FOUND_ERROR_MESSAGE = "Kein Eintrag mit der ID gefunden.";
 
     private static final String[] SQL_OPERATIONS = {"SELECT * FROM", "INSERT INTO", "DELETE FROM"};
 
     private static final String[] TABLE_NAMES = {"STAFFER", "DIVISION", "COMPANY"};
 
-    private final Dao dao = new Dao("ContactManagerDesktopPU");
+    private StafferDao stafferDao = new StafferDao();
+    private DivisionDao divisionDao = new DivisionDao();
+    private CompanyDao companyDao = new CompanyDao();
+    private Dao dao = new Dao();
 
     private final ExecutorService es = Executors.newCachedThreadPool();
 
@@ -808,6 +811,12 @@ public class ContactManagerController implements Initializable {
             Stage stage = (Stage) this.exitBtn.getScene().getWindow();
             stage.close();
         }
+    }
+
+    public void shutdown() {
+        L.info("Shutting down the application");
+        this.es.shutdown();
+        this.dao.destroy();
     }
 
 }

@@ -4,7 +4,6 @@ import ch.qos.logback.classic.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceException;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -12,36 +11,27 @@ import org.slf4j.LoggerFactory;
  *
  * @author Mirko Schulze
  */
-public class Hibernator {
+public class HibernateUtils {
 
-    private static final Logger L = (Logger) LoggerFactory.getLogger(Hibernator.class);
+    private static final Logger L = (Logger) LoggerFactory.getLogger(HibernateUtils.class);
 
-    private final EntityManagerFactory EMF;
+    private static final String PERSISTENCE_UNIT = "ContactManagerDesktopPU";
 
-    /**
-     * Loads the persistence.xml and creates the {@link EntityManagerFactory}.
-     *
-     * @param persistenceUnit
-     * @throws PersistenceException if the persistence unit can not be loaded
-     * properly
-     */
-    public Hibernator(String persistenceUnit) throws PersistenceException{
-            EMF = Persistence.createEntityManagerFactory(persistenceUnit);
-    }
+    private static final EntityManagerFactory EMF = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 
     /**
      * Creates and returns a new {@link EntityManager}.
      *
      * @return EntityManager - a new {@link EntityManager}
      */
-    public EntityManager getEntityManager() {
+    public static EntityManager getEntityManager() {
         return EMF.createEntityManager();
     }
 
     /**
      * Static method to shut down the {@link EntityManagerFactory}.
      */
-    public void shutdown() {
+    public static void shutdown() {
         if (EMF != null && EMF.isOpen()) {
             L.info("Closing [{}]", EntityManagerFactory.class.getSimpleName());
             EMF.close();
