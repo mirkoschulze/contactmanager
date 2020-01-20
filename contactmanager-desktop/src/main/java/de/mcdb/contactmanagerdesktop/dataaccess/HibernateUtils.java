@@ -1,4 +1,4 @@
-package de.mcdb.contactmanagerdesktop;
+package de.mcdb.contactmanagerdesktop.dataaccess;
 
 import ch.qos.logback.classic.Logger;
 import javax.persistence.EntityManager;
@@ -7,7 +7,7 @@ import javax.persistence.Persistence;
 import org.slf4j.LoggerFactory;
 
 /**
- * Class with methods to interact with the Hibernate framework.
+ * Class with static methods to interact with the Hibernate framework.
  *
  * @author Mirko Schulze
  */
