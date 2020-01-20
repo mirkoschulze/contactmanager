@@ -3,15 +3,17 @@ package de.mcdb.contactmanagerweb;
 import de.mcdb.contactmanagerapi.datamodel.Company;
 import de.mcdb.contactmanagerapi.datamodel.Division;
 import de.mcdb.contactmanagerapi.datamodel.Staffer;
+import de.mcdb.contactmanagerweb.dataaccess.CompanyDao;
+import de.mcdb.contactmanagerweb.dataaccess.DivisionDao;
+import de.mcdb.contactmanagerweb.dataaccess.StafferDao;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -23,8 +25,6 @@ import org.slf4j.LoggerFactory;
 @SuppressWarnings("unchecked")
 public class Controller implements Serializable {
 
-    private static final Logger L = LoggerFactory.getLogger(Controller.class);
-
     private Company company;
     private Division division;
     private Staffer staffer;
@@ -33,13 +33,20 @@ public class Controller implements Serializable {
     private List<Division> divisions = new ArrayList<>();
     private List<Staffer> staffers = new ArrayList<>();
 
-    private Dao dao = new Dao();
+    @Inject
+    private StafferDao stafferDao;
+
+    @Inject
+    private DivisionDao divisionDao;
+
+    @Inject
+    private CompanyDao companyDao;
 
     @PostConstruct
     public void init() {
-        this.companies = this.dao.findAllFromCompany();
-        this.divisions = this.dao.findAllFromDivision();
-        this.staffers = this.dao.findAllFromStaffer();
+        this.companies = this.companyDao.findAll();
+        this.divisions = this.divisionDao.findAll();
+        this.staffers = this.stafferDao.findAll();
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getter / Setter">
