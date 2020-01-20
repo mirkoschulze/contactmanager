@@ -11,6 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Class to write a valid persistence.xml for JDBC/Hibernate usage.
+ * <p>
+ * Expects user name and password to enable access to the MySQL server.
  *
  * @author Mirko
  */
@@ -19,6 +22,15 @@ public class PersistenceWriter {
     private static final Logger L = LoggerFactory.getLogger(PersistenceWriter.class);
     private final String FILE_NAME_WITH_PATH = ".\\src\\main\\resources\\META-INF\\persistence.xml";
 
+    /**
+     * Writes a persistence.xml with the submitted values for
+     *javax.persistence.jdbc.user and javax.persistence.jdbc.password to the
+     * following location:
+     * projectFolder/src/main/resources/META-INF/persistence.xml.
+     *
+     * @param user value for javax.persistence.jdbc.user parameter
+     * @param password value for javax.persistence.jdbc.password parameter
+     */
     public void writePersistenceXML(String user, String password) {
         XMLOutputFactory factory = XMLOutputFactory.newInstance();
         try {

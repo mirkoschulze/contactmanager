@@ -3,7 +3,7 @@ package de.mcdb.contactmanagerdesktop.fx;
 import ch.qos.logback.classic.Logger;
 import de.mcdb.contactmanagerapi.datamodel.Division;
 import de.mcdb.contactmanagerapi.datamodel.Staffer;
-import de.mcdb.contactmanagerdesktop.Dao;
+import de.mcdb.contactmanagerdesktop.dataaccess.DivisionDao;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
@@ -61,7 +61,7 @@ public class StafferDialog extends Dialog<Staffer> {
 
         Label divisionLabel = new Label("Abteilung: ");
         ComboBox<Division> divisionSelection = new ComboBox<>(FXCollections
-                .observableArrayList(new Dao().findAllFromDivision()));
+                .observableArrayList(new DivisionDao().findAll()));
         divisionSelection.setTooltip(new Tooltip("Optional: Wähle eine Abteilung aus!"));
 
         HBox divisionHbox = new HBox(5, divisionLabel, divisionSelection);

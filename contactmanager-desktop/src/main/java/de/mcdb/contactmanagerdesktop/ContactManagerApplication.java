@@ -21,9 +21,9 @@ import org.slf4j.LoggerFactory;
  *
  * @author Mirko Schulze
  */
-public class ContactManager extends Application {
+public class ContactManagerApplication extends Application {
 
-    private static final Logger L = (Logger) LoggerFactory.getLogger(ContactManager.class);
+    private static final Logger L = (Logger) LoggerFactory.getLogger(ContactManagerApplication.class);
     private final FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainScene.fxml"));
     private Scene scene;
 
@@ -41,7 +41,7 @@ public class ContactManager extends Application {
                 eh.consume();
                 this.loader.<ContactManagerController>getController().exit();
             } catch (NullPointerException e) {
-                L.info("Catching [{}] in [{}]", e.toString(), ContactManager.class.getSimpleName());
+                L.info("Catching [{}] in [{}]", e.toString(), ContactManagerApplication.class.getSimpleName());
                 stage.close();
             }
         });
@@ -63,7 +63,7 @@ public class ContactManager extends Application {
             Parent parent = this.loader.load();
             this.scene = new Scene(parent);
         } catch (IOException | IllegalStateException e) {
-            L.info("Catching [{}] in [{}]", e.toString(), ContactManager.class.getSimpleName());
+            L.info("Catching [{}] in [{}]", e.toString(), ContactManagerApplication.class.getSimpleName());
             ContactManagerController controller = this.loader.<ContactManagerController>getController();
             controller.shutdown();
 

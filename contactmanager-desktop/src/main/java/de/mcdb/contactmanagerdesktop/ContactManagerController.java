@@ -1,7 +1,11 @@
 package de.mcdb.contactmanagerdesktop;
 
 //<editor-fold defaultstate="collapsed" desc="imports">
+import de.mcdb.contactmanagerdesktop.dataaccess.StafferDao;
+import de.mcdb.contactmanagerdesktop.dataaccess.CompanyDao;
+import de.mcdb.contactmanagerdesktop.dataaccess.DivisionDao;
 import ch.qos.logback.classic.Logger;
+import de.mcdb.contactmanagerapi.Dao;
 import de.mcdb.contactmanagerapi.datamodel.Company;
 import de.mcdb.contactmanagerapi.datamodel.Division;
 import de.mcdb.contactmanagerapi.datamodel.Staffer;
@@ -44,6 +48,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javax.inject.Inject;
 import org.slf4j.LoggerFactory;
 //</editor-fold>
 
@@ -64,9 +69,10 @@ public class ContactManagerController implements Initializable {
     private static final String[] TABLE_NAMES = {"STAFFER", "DIVISION", "COMPANY"};
 
     private StafferDao stafferDao = new StafferDao();
+
     private DivisionDao divisionDao = new DivisionDao();
+
     private CompanyDao companyDao = new CompanyDao();
-    private Dao dao = new Dao();
 
     private final ExecutorService es = Executors.newCachedThreadPool();
 
@@ -388,7 +394,7 @@ public class ContactManagerController implements Initializable {
             new RequestIdDialog().showAndWait().ifPresent(id -> {
                 if (id != 0L) {
                     try {
-                        new ResultDialog(this.dao.findStafferById(id).toEnhancedLine()).show();
+                        new ResultDialog(this.stafferDao.findById(id).toEnhancedLine()).show();
                     } catch (NullPointerException e) {
                         L.info("Catching [{}] in [{}]", e.toString(), ContactManagerController.class.getSimpleName());
                         L.info("Opening new [{}]", Alert.class.getSimpleName());
@@ -411,7 +417,7 @@ public class ContactManagerController implements Initializable {
             new RequestIdDialog().showAndWait().ifPresent(id -> {
                 if (id != 0L) {
                     try {
-                        Division division = this.dao.findDivisionById(id);
+                        Division division = this.divisionDao.findById(id);
                         new ResultDialog(division.toEnhancedLine()).show();
                     } catch (NullPointerException e) {
                         L.info("Catching [{}] in [{}]", e.toString(), ContactManagerController.class.getSimpleName());
@@ -436,7 +442,7 @@ public class ContactManagerController implements Initializable {
             new RequestIdDialog().showAndWait().ifPresent(id -> {
                 if (id != 0L) {
                     try {
-                        Company company = this.dao.findCompanyById(id);
+                        Company company = this.companyDao.findById(id);
                         new ResultDialog(company.toEnhancedLine()).show();
                     } catch (NullPointerException e) {
                         L.info("Catching [{}] in [{}]", e.toString(), ContactManagerController.class.getSimpleName());
@@ -461,7 +467,7 @@ public class ContactManagerController implements Initializable {
     private void persistStaffer() {
         Platform.runLater(() -> {
             new StafferDialog().showAndWait().ifPresent(s -> {
-                this.dao.persistStaffer(s);
+                this.stafferDao.persist(s);
                 this.synchronizeStaffers();
             });
         });
@@ -478,7 +484,7 @@ public class ContactManagerController implements Initializable {
     private void persistDivision() {
         Platform.runLater(() -> {
             new DivisionDialog().showAndWait().ifPresent(d -> {
-                this.dao.persistDivision(d);
+                this.divisionDao.persist(d);
                 this.synchronizeDivisions();
             });
         });
@@ -494,7 +500,7 @@ public class ContactManagerController implements Initializable {
     private void persistCompany() {
         Platform.runLater(() -> {
             new CompanyDialog().showAndWait().ifPresent(c -> {
-                this.dao.persistCompany(c);
+                this.companyDao.persist(c);
                 this.synchronizeCompanies();
             });
         });
@@ -515,10 +521,10 @@ public class ContactManagerController implements Initializable {
     private void updateStaffer() {
         Platform.runLater(() -> {
             new RequestIdDialog().showAndWait().ifPresent(id -> {
-                if (id != 0L && this.dao.findStafferById(id) != null) {
+                if (id != 0L && this.stafferDao.findById(id) != null) {
                     try {
                         new StafferDialog().showAndWait().ifPresent(s -> {
-                            this.dao.updateStaffer(id, s);
+                            this.stafferDao.update(id, s);
                             this.synchronizeStaffers();
                         });
                     } catch (NullPointerException e) {
@@ -547,10 +553,10 @@ public class ContactManagerController implements Initializable {
     private void updateDivision() {
         Platform.runLater(() -> {
             new RequestIdDialog().showAndWait().ifPresent(id -> {
-                if (id != 0L && this.dao.findDivisionById(id) != null) {
+                if (id != 0L && this.divisionDao.findById(id) != null) {
                     try {
                         new DivisionDialog().showAndWait().ifPresent(d -> {
-                            this.dao.updateDivision(id, d);
+                            this.divisionDao.update(id, d);
                             this.synchronizeDivisions();
                         });
                     } catch (NullPointerException e) {
@@ -579,10 +585,10 @@ public class ContactManagerController implements Initializable {
     private void updateCompany() {
         Platform.runLater(() -> {
             new RequestIdDialog().showAndWait().ifPresent(id -> {
-                if (id != 0L && this.dao.findCompanyById(id) != null) {
+                if (id != 0L && this.companyDao.findById(id) != null) {
                     try {
                         new CompanyDialog().showAndWait().ifPresent(c -> {
-                            this.dao.updateCompany(id, c);
+                            this.companyDao.update(id, c);
                             this.synchronizeCompanies();
                         });
                     } catch (NullPointerException e) {
@@ -608,9 +614,9 @@ public class ContactManagerController implements Initializable {
     private void removeStaffer() {
         Platform.runLater(() -> {
             new RequestIdDialog().showAndWait().ifPresent(id -> {
-                if (id != 0L && this.dao.findStafferById(id) != null) {
+                if (id != 0L && this.stafferDao.findById(id) != null) {
                     try {
-                        this.dao.removeStaffer(id);
+                        this.stafferDao.remove(id);
                         this.synchronizeStaffers();
                     } catch (NullPointerException e) {
                         L.info("Catching [{}] in [{}]", e.toString(), ContactManagerController.class.getSimpleName());
@@ -633,9 +639,9 @@ public class ContactManagerController implements Initializable {
     private void removeDivision() {
         Platform.runLater(() -> {
             new RequestIdDialog().showAndWait().ifPresent(id -> {
-                if (id != 0L && this.dao.findDivisionById(id) != null) {
+                if (id != 0L && this.divisionDao.findById(id) != null) {
                     try {
-                        this.dao.removeDivision(id);
+                        this.divisionDao.remove(id);
                         this.synchronizeDivisions();
                     } catch (NullPointerException e) {
                         L.info("Catching [{}] in [{}]", e.toString(), ContactManagerController.class.getSimpleName());
@@ -658,9 +664,9 @@ public class ContactManagerController implements Initializable {
     private void removeCompany() {
         Platform.runLater(() -> {
             new RequestIdDialog().showAndWait().ifPresent(id -> {
-                if (id != 0L && this.dao.findCompanyById(id) != null) {
+                if (id != 0L && this.companyDao.findById(id) != null) {
                     try {
-                        this.dao.removeCompany(id);
+                        this.companyDao.remove(id);
                         this.synchronizeCompanies();
                     } catch (NullPointerException e) {
                         L.info("Catching [{}] in [{}]", e.toString(), ContactManagerController.class.getSimpleName());
@@ -687,7 +693,7 @@ public class ContactManagerController implements Initializable {
         CompletableFuture<Boolean> isComplete = new CompletableFuture<>();
 
         this.es.execute(() -> {
-            futureStaffers.complete(this.dao.findAllFromStaffer());
+            futureStaffers.complete(this.stafferDao.findAll());
         });
 
         es.execute(() -> {
@@ -725,7 +731,7 @@ public class ContactManagerController implements Initializable {
         CompletableFuture<Boolean> isComplete = new CompletableFuture<>();
 
         this.es.execute(() -> {
-            futureDivisions.complete(this.dao.findAllFromDivision());
+            futureDivisions.complete(this.divisionDao.findAll());
         });
 
         es.execute(() -> {
@@ -763,7 +769,7 @@ public class ContactManagerController implements Initializable {
         CompletableFuture<Boolean> isComplete = new CompletableFuture<>();
 
         this.es.execute(() -> {
-            futureCompanies.complete(this.dao.findAllFromCompany());
+            futureCompanies.complete(this.companyDao.findAll());
         });
 
         es.execute(() -> {
@@ -806,17 +812,24 @@ public class ContactManagerController implements Initializable {
         if (new Alert(Alert.AlertType.CONFIRMATION, "Wollen Sie die Anwendung beenden?").showAndWait().get() == ButtonType.OK) {
             L.info("Shutting down the application");
             this.es.shutdown();
-            this.dao.destroy();
+            this.stafferDao.destroy();
+            this.divisionDao.destroy();
+            this.companyDao.destroy();
 
             Stage stage = (Stage) this.exitBtn.getScene().getWindow();
             stage.close();
         }
     }
 
+    /**
+     * Shuts
+     */
     public void shutdown() {
         L.info("Shutting down the application");
         this.es.shutdown();
-        this.dao.destroy();
+        this.stafferDao.destroy();
+        this.divisionDao.destroy();
+        this.companyDao.destroy();
     }
 
 }

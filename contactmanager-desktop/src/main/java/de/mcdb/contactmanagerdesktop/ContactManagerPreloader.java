@@ -26,12 +26,12 @@ import org.slf4j.LoggerFactory;
  */
 public class ContactManagerPreloader extends Preloader {
 
-    private static final Logger L = LoggerFactory.getLogger(ContactManagerPreloader.class);
+    private static final Logger L = LoggerFactory.getLogger(Preloader.class);
 
     private Stage stage;
     private ProgressBar bar;
-    private PersistenceWriter writer = new PersistenceWriter();
-    private ExecutorService es = Executors.newCachedThreadPool();
+    private final PersistenceWriter WRITER = new PersistenceWriter();
+    private final ExecutorService ES = Executors.newCachedThreadPool();
 
     /**
      * The main entry point for all JavaFX applications.
@@ -70,25 +70,28 @@ public class ContactManagerPreloader extends Preloader {
                         if (!data.isEmpty()) {
                             String user = data.get("user");
                             String pw = data.get("pw");
-                            es.execute(() -> {
+                            ES.execute(() -> {
+                                L.info("Preparing MySQL scheme");
                                 try (Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/?serverTimezone=UTC", user, pw)) {
+                                    L.info("MySQL scheme ready");
                                     Statement s = c.createStatement();
                                     s.execute("create database if not exists contact_db;");
                                 } catch (SQLException e) {
-                                    L.error("Catching {} in [{}], shutting down the program via System.exit(0)", e, ContactManagerPreloader.class);
+                                    L.error("Catching {} in [{}], shutting down the program via System.exit(0)", e, Preloader.class);
                                     System.exit(0);
                                 }
                             });
-                            es.execute(() -> {
-                                this.writer.writePersistenceXML(user, pw);
+                            ES.execute(() -> {
+                                this.WRITER.writePersistenceXML(user, pw);
                             });
                         } else {
+                            L.info("No user data entered, shutting down the program via System.exit(0)");
                             System.exit(0);
                         }
                         break;
                     case BEFORE_INIT:
-                        Thread.sleep(3000);
-                        es.shutdown();
+                        Thread.sleep(5000);
+                        ES.shutdown();
                         break;
                     case BEFORE_START:
                         this.stage.hide();

@@ -1,4 +1,4 @@
 /**
- * Contains classes to interact with the contact database.
+ * Contains classes to interact with the database.
  */
 package de.mcdb.contactmanagerapi;
