@@ -3,7 +3,7 @@ package de.mcdb.contactmanagerdesktop.fx;
 import ch.qos.logback.classic.Logger;
 import de.mcdb.contactmanagerapi.datamodel.Division;
 import de.mcdb.contactmanagerapi.datamodel.Staffer;
-import de.mcdb.contactmanagerdesktop.dataaccess.DivisionDao;
+import de.mcdb.contactmanagerdesktop.dao.DivisionDao;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
