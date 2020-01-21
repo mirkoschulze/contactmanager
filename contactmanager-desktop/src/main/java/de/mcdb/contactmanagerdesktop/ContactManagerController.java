@@ -1,14 +1,15 @@
 package de.mcdb.contactmanagerdesktop;
 
 //<editor-fold defaultstate="collapsed" desc="imports">
-import de.mcdb.contactmanagerdesktop.dataaccess.StafferDao;
-import de.mcdb.contactmanagerdesktop.dataaccess.CompanyDao;
-import de.mcdb.contactmanagerdesktop.dataaccess.DivisionDao;
+import de.mcdb.contactmanagerdesktop.dao.StafferDao;
+import de.mcdb.contactmanagerdesktop.dao.CompanyDao;
+import de.mcdb.contactmanagerdesktop.dao.DivisionDao;
 import ch.qos.logback.classic.Logger;
 import de.mcdb.contactmanagerapi.Dao;
 import de.mcdb.contactmanagerapi.datamodel.Company;
 import de.mcdb.contactmanagerapi.datamodel.Division;
 import de.mcdb.contactmanagerapi.datamodel.Staffer;
+import de.mcdb.contactmanagerdesktop.dao.HibernateUtils;
 import de.mcdb.contactmanagerdesktop.fx.CompanyDialog;
 import de.mcdb.contactmanagerdesktop.fx.DivisionDialog;
 import de.mcdb.contactmanagerdesktop.fx.RequestIdDialog;
@@ -48,7 +49,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import javax.inject.Inject;
 import org.slf4j.LoggerFactory;
 //</editor-fold>
 
@@ -67,14 +67,14 @@ public class ContactManagerController implements Initializable {
     private static final String[] SQL_OPERATIONS = {"SELECT * FROM", "INSERT INTO", "DELETE FROM"};
 
     private static final String[] TABLE_NAMES = {"STAFFER", "DIVISION", "COMPANY"};
+    
+    private final ExecutorService es = Executors.newCachedThreadPool();
 
     private StafferDao stafferDao = new StafferDao();
 
     private DivisionDao divisionDao = new DivisionDao();
 
     private CompanyDao companyDao = new CompanyDao();
-
-    private final ExecutorService es = Executors.newCachedThreadPool();
 
     //<editor-fold defaultstate="collapsed" desc="FX components">
     @FXML
@@ -144,7 +144,6 @@ public class ContactManagerController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        L.info("Initializing [{}] : JDBC Query Box", ContactManagerController.class.getSimpleName());
         //<editor-fold defaultstate="collapsed" desc="jdbc query box">
         this.queryBox.disableProperty().set(true);
         this.queryBox.setVisible(false);
@@ -166,7 +165,6 @@ public class ContactManagerController implements Initializable {
         });
         //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="button box">
-        L.info("Initializing [{}] : Button Box", ContactManagerController.class.getSimpleName(), TabPane.class.getSimpleName());
         this.tabPane.getSelectionModel().selectedItemProperty().addListener((v, oV, nV) -> {
             if (nV == tabPane.getTabs().get(0)) {
                 this.findByIdBtn.setOnAction(e -> {
@@ -214,9 +212,7 @@ public class ContactManagerController implements Initializable {
         });
         //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="tabpane">
-        L.info("Initializing [{}] : [{}]", ContactManagerController.class.getSimpleName(), TabPane.class.getSimpleName());
         //<editor-fold defaultstate="collapsed" desc="company tableview">
-        L.info("Initializing [{}] : [{}] : Company Tableview", ContactManagerController.class.getSimpleName());
         TableColumn<Company, Long> companyIdColumn = new TableColumn<>("Firma ID");
         companyIdColumn.setCellValueFactory(p -> {
             return new SimpleLongProperty(p.getValue().getId()).asObject();
@@ -232,7 +228,6 @@ public class ContactManagerController implements Initializable {
         this.companyTableView.getColumns().setAll(companyIdColumn, companyNameColumn);
         //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="division tableview">
-        L.info("Initializing [{}] : [{}] : Division Tableview", ContactManagerController.class.getSimpleName());
         TableColumn<Division, Long> divisionIdColumn = new TableColumn<>("Abteilung ID");
         divisionIdColumn.setCellValueFactory(p -> {
             return new SimpleLongProperty(p.getValue().getId()).asObject();
@@ -254,7 +249,6 @@ public class ContactManagerController implements Initializable {
                 divisionNameColumn, divisionCompanyColumn);
         //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="staffer tableview">
-        L.info("Initializing [{}] : [{}] : Staffer Tableview", ContactManagerController.class.getSimpleName());
         TableColumn<Staffer, Long> stafferIdColumn = new TableColumn<>("Mitarbeiter ID");
         stafferIdColumn.setCellValueFactory(p -> {
             return new SimpleLongProperty(p.getValue().getId()).asObject();
@@ -292,7 +286,6 @@ public class ContactManagerController implements Initializable {
                 stafferForeNameColumn, stafferSurNameColumn, stafferDivisionColumn, stafferCompanyColumn);
         //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="tabs">
-        L.info("Initializing [{}] : [{}] : Tabs", ContactManagerController.class.getSimpleName());
         Tab companyTab = new Tab("Company", this.companyTableView);
         Tab divisionTab = new Tab("Division", this.divisionTableView);
         Tab stafferTab = new Tab("Staffer", this.stafferTableView);
@@ -303,7 +296,6 @@ public class ContactManagerController implements Initializable {
         this.tabPane.getSelectionModel().select(0);
         //</editor-fold>
         //</editor-fold>
-        L.info("Initializing [{}] : Initialization complete", ContactManagerController.class.getSimpleName());
     }
 
     //</editor-fold>
@@ -804,7 +796,9 @@ public class ContactManagerController implements Initializable {
      * <p>
      * If the user confirms the request:
      * <ul><li>calls {@link HibernateUtils#shutdown()}</li>
-     * <li>calls {@link Dao#destroy()}</li></ul>
+     * <li>calls {@link ExecutorService#shutdown()}</li>
+     * <li>calls {@link Dao#destroy()} for each Dao implementation</li>
+     * <li>closes the primary application stage</li></ul>
      * to exit the application properly.
      */
     @FXML
@@ -822,7 +816,9 @@ public class ContactManagerController implements Initializable {
     }
 
     /**
-     * Shuts
+     * Shuts down the controller by calling:
+     * <ul><li>{@link ExecutorService#shutdown()}</li>
+     * <li>and {@link Dao#destroy()} for each Dao implementation</li></ul>
      */
     public void shutdown() {
         L.info("Shutting down the application");
