@@ -67,9 +67,15 @@ public class ContactManagerApplication extends Application {
             ContactManagerController controller = this.loader.<ContactManagerController>getController();
             controller.shutdown();
 
-            Label label = new Label("Da ist wohl etwas schiefgegangen =/ ");
+            Label label = new Label("Da ist leider etwas schiefgegangen =/ ");
 
-            TextArea textArea = new TextArea("\nFehler=\n" + e.getClass().getSimpleName() + "\n\nFehlermeldung=\n" + e + "\n\n\nKontakt:\nmail: mirko@mail");
+            StringBuilder sb = new StringBuilder("\nFehlerklasse=\n" + e.getClass().getSimpleName() + "\n\nFehlermeldung=\n" + e);
+            if (e.getCause() != null) {
+                sb.append("\n\nUrsache=\n").append(e.getCause());
+            }
+            sb.append("\n\n\nKontakt:\nmail: mirko@mail");
+
+            TextArea textArea = new TextArea(sb.toString());
             textArea.setWrapText(true);
             textArea.setEditable(false);
 
