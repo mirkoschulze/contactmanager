@@ -12,11 +12,6 @@ import com.sun.javafx.application.LauncherImpl;
  */
 public class Main {
     
-    //TODO tests
-    //TODO preloader progress handling
-    //TODO aufräumen
-    //TODO fehler zeigt immer nur fxml fehler
-    //TODO doku
     /**
      * Calls {@link LauncherImpl#launchApplication(Class, Class, String[])} with
      * {@link ContactManagerApplication} and {@link ContactManagerPreloader} to start the
