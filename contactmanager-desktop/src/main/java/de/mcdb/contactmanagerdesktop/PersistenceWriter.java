@@ -24,7 +24,7 @@ public class PersistenceWriter {
 
     /**
      * Writes a persistence.xml with the submitted values for
-     *javax.persistence.jdbc.user and javax.persistence.jdbc.password to the
+     * javax.persistence.jdbc.user and javax.persistence.jdbc.password to the
      * following location:
      * projectFolder/src/main/resources/META-INF/persistence.xml.
      *
@@ -119,7 +119,7 @@ public class PersistenceWriter {
             writer.flush();
             writer.close();
         } catch (XMLStreamException | IOException e) {
-            L.info("Exception in [{}] : {}", PersistenceWriter.class.getSimpleName(), e);
+            L.info("Catching {} in [{}]", e, PersistenceWriter.class.getSimpleName());
         }
     }
 
