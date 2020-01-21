@@ -18,7 +18,11 @@
     <description>Desktop application for my Contact Manager project.</description>
     
     <properties>
+        <javaee.version>8.0</javaee.version>
+        <openjfx.version>11.0.1</openjfx.version>
         <logback.version>1.2.3</logback.version>
+        <maven.jar.plugin.version>3.2.0</maven.jar.plugin.version>
+        <javafx.maven.plugin.version>0.0.3</javafx.maven.plugin.version>
         <main.class>de.mcdb.contactmanagerdesktop.Main</main.class>
     </properties>
    
@@ -29,16 +33,22 @@
             <artifactId>contactmanager-api</artifactId>
             <version>${contactmanager.version}</version>
         </dependency>
+        <!-- Java EE -->
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>${javaee.version}</version>
+        </dependency>
         <!-- JavaFX -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>11.0.1</version>
+            <version>${openjfx.version}</version>
         </dependency>     
         <dependency>         
             <groupId>org.openjfx</groupId>         
             <artifactId>javafx-fxml</artifactId>         
-            <version>11.0.1</version>     
+            <version>${openjfx.version}</version>     
         </dependency>
         <!-- Logging -->
         <!-- Logback -->
@@ -52,11 +62,6 @@
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
         </dependency>
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>8.0</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -64,7 +69,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>${maven.jar.plugin.version}</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -76,9 +81,9 @@
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.3</version>
+                <version>${javafx.maven.plugin.version}</version>
                 <configuration>
-                    <mainClass>de.mcdb.contactmanagerdesktop.Main</mainClass>
+                    <mainClass>${main.class}</mainClass>
                 </configuration>
             </plugin>
         </plugins>

@@ -20,7 +20,11 @@
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <primafeces.version>7.0</primafeces.version>
-        <javaee.version>7.0</javaee.version>
+        <javaee.version>8.0</javaee.version>
+        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+        <maven.war.plugin.version>3.2.3</maven.war.plugin.version>
+        <maven.dependency.plugin.version>3.1.1</maven.dependency.plugin.version>
+        <endorsed.javaee.version>7.0</endorsed.javaee.version>
     </properties>
     
     <dependencies>
@@ -30,11 +34,11 @@
             <artifactId>contactmanager-api</artifactId>
             <version>${contactmanager.version}</version>
         </dependency>
-        <!-- Web Application -->
+        <!-- Java EE -->
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-            <version>8.0.1</version>
+            <version>${javaee.version}</version>
             <type>jar</type>
         </dependency>
         <!-- JSF -->
@@ -51,10 +55,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>${maven.compiler.plugin.version}</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                     <compilerArguments>
                         <endorseddirs>${endorsed.dir}</endorseddirs>
                     </compilerArguments>
@@ -63,7 +67,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.2.3</version>
+                <version>${maven.war.plugin.version}</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
@@ -71,7 +75,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>${maven.dependency.plugin.version}</version>
                 <executions>
                     <execution>
                         <phase>validate</phase>
@@ -85,7 +89,7 @@
                                 <artifactItem>
                                     <groupId>javax</groupId>
                                     <artifactId>javaee-endorsed-api</artifactId>
-                                    <version>7.0</version>
+                                    <version>${endorsed.javaee.version}</version>
                                     <type>jar</type>
                                 </artifactItem>
                             </artifactItems>
