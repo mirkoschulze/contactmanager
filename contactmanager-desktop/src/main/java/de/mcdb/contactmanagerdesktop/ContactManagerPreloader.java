@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javafx.application.Preloader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.BorderPane;
@@ -28,10 +29,11 @@ public class ContactManagerPreloader extends Preloader {
 
     private static final Logger L = LoggerFactory.getLogger(Preloader.class);
 
+    private final ExecutorService es = Executors.newCachedThreadPool();
+    private final PersistenceWriter writer = new PersistenceWriter();
+
     private Stage stage;
     private ProgressBar bar;
-    private final PersistenceWriter WRITER = new PersistenceWriter();
-    private final ExecutorService ES = Executors.newCachedThreadPool();
 
     /**
      * The main entry point for all JavaFX applications.
@@ -54,8 +56,19 @@ public class ContactManagerPreloader extends Preloader {
      * This method is called by the FX runtime as part of the application
      * life-cycle.
      * <p>
-     * Hides the {@link Preloader} {@link Stage} when {@link ContactManager} is
-     * ready to run.
+     * Before Load:
+     * <p>
+     * Opens a {@link UserDataDialog} to ask the user for jdbc values and
+     * prepares the persistence.xml with the entered values.
+     * <p>
+     * Before Init:
+     * <p>
+     * Puts the Thread to sleep for 5 seconds to ensure writing of the
+     * persistence.xml is finished.
+     * <p>
+     * Before Start:
+     * <p>
+     * Hides the {@link Preloader} {@link Stage}.
      *
      * @param stateChangeNotification a notification that signals a change in
      * the application state
@@ -66,23 +79,29 @@ public class ContactManagerPreloader extends Preloader {
             try {
                 switch (stateChangeNotification.getType()) {
                     case BEFORE_LOAD:
-                        Map<String, String> data = askForUserData();
+                        this.bar.setProgress(0.33);
+                        Map<String, String> data = new HashMap<>();
+                        new UserDataDialog().showAndWait().ifPresent(ud -> {
+                            data.put("user", ud.get("user"));
+                            data.put("pw", ud.get("pw"));
+                        });
                         if (!data.isEmpty()) {
                             String user = data.get("user");
                             String pw = data.get("pw");
-                            ES.execute(() -> {
+                            es.execute(() -> {
                                 L.info("Preparing MySQL scheme");
                                 try (Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/?serverTimezone=UTC", user, pw)) {
-                                    L.info("MySQL scheme ready");
                                     Statement s = c.createStatement();
                                     s.execute("create database if not exists contact_db;");
                                 } catch (SQLException e) {
                                     L.error("Catching {} in [{}], shutting down the program via System.exit(0)", e, Preloader.class);
+                                    new Alert(Alert.AlertType.ERROR,"Fehler=\n" + e).showAndWait();
                                     System.exit(0);
                                 }
                             });
-                            ES.execute(() -> {
-                                this.WRITER.writePersistenceXML(user, pw);
+                            es.execute(() -> {
+                                L.info("Writing persistence.xml");
+                                this.writer.writePersistenceXML(user, pw);
                             });
                         } else {
                             L.info("No user data entered, shutting down the program via System.exit(0)");
@@ -90,17 +109,19 @@ public class ContactManagerPreloader extends Preloader {
                         }
                         break;
                     case BEFORE_INIT:
+                        this.bar.setProgress(0.66);
                         Thread.sleep(5000);
-                        ES.shutdown();
+                        es.shutdown();
                         break;
                     case BEFORE_START:
+                        this.bar.setProgress(0.99);
                         this.stage.hide();
                         break;
                     default:
                         break;
                 }
             } catch (InterruptedException e) {
-                L.info("{}", e);
+                L.info("Catching {} in [{}]", e, ContactManagerPreloader.class.getSimpleName());
             }
         }
     }
@@ -116,16 +137,7 @@ public class ContactManagerPreloader extends Preloader {
      */
     @Override
     public void handleProgressNotification(ProgressNotification progressNotification) {
-        this.bar.setProgress(progressNotification.getProgress() * 0.66);
-    }
-
-    private Map<String, String> askForUserData() {
-        Map<String, String> data = new HashMap<>();
-        new UserDataDialog().showAndWait().ifPresent(ud -> {
-            data.put("user", ud.get("user"));
-            data.put("pw", ud.get("pw"));
-        });
-        return data;
+        this.bar.setProgress(progressNotification.getProgress());
     }
 
 }
