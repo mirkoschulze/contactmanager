@@ -1,4 +1,4 @@
-package de.mcdb.contactmanagerweb.dataaccess;
+package de.mcdb.contactmanagerweb.dao;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import de.mcdb.contactmanagerapi.datamodel.Division;

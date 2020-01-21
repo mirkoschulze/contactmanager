@@ -1,10 +1,8 @@
-package de.mcdb.contactmanagerdesktop.dataaccess;
+package de.mcdb.contactmanagerweb.dao;
 
-import ch.qos.logback.classic.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import org.slf4j.LoggerFactory;
 
 /**
  * Class with static methods to interact with the Hibernate framework.
@@ -13,9 +11,7 @@ import org.slf4j.LoggerFactory;
  */
 public class HibernateUtils {
 
-    private static final Logger L = (Logger) LoggerFactory.getLogger(HibernateUtils.class);
-
-    private static final String PERSISTENCE_UNIT = "ContactManagerDesktopPU";
+    private static final String PERSISTENCE_UNIT = "ContactManagerWebPU";
 
     private static final EntityManagerFactory EMF = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 
@@ -33,7 +29,6 @@ public class HibernateUtils {
      */
     public static void shutdown() {
         if (EMF != null && EMF.isOpen()) {
-            L.info("Closing [{}]", EntityManagerFactory.class.getSimpleName());
             EMF.close();
         }
     }
