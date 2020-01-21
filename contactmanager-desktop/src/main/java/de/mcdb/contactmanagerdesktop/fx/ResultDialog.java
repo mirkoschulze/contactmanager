@@ -18,9 +18,6 @@ import javafx.scene.control.ListView;
  */
 public class ResultDialog extends Dialog {
 
-    private final double WIDTH = 600;
-    private final double HEIGHT = 400;
-
     /**
      * Invokes a specified {@link Dialog} pane with a {@link ListView} to
      * present results from a CRUD-operation.
@@ -58,8 +55,8 @@ public class ResultDialog extends Dialog {
     private ResultDialog() {
         this.setTitle("Contact Manager");
         this.setHeaderText("Ergebnisse der Suche.");
-        this.getDialogPane().setMinWidth(WIDTH);
-        this.getDialogPane().setMinHeight(HEIGHT);
+        this.getDialogPane().setMinWidth(600);
+        this.getDialogPane().setMinHeight(400);
         this.getDialogPane().getButtonTypes().addAll(ButtonType.CLOSE);
     }
 
