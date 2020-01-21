@@ -16,6 +16,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Invokes a specified {@link Dialog} pane with {@link Label}<code>s</code>, a
+ * {@link TextField} and a {@link PasswordField} .
+ * <p>
+ * The entered values are mapped to a {@link HashMap} which is the return value
+ * of the constructor; if valid values are entered and the finish button is
+ * clicked, else the return value is null.
  *
  * @author Mirko
  */
