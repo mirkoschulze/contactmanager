@@ -34,7 +34,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <contactmanager.version>1.0-SNAPSHOT</contactmanager.version>
         <mysql.version>8.0.18</mysql.version>
-        <hibernate.version>5.4.4.Final</hibernate.version>
+        <hibernate.version>5.4.24.Final</hibernate.version>
         <hibernate.annotations.version>5.1.0.Final</hibernate.annotations.version>
         <hibernate.jpa.version>1.0.2.Final</hibernate.jpa.version>
         <slf4j.version>1.7.29</slf4j.version>
