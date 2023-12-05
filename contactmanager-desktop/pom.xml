@@ -20,7 +20,7 @@
     <properties>
         <javaee.version>8.0</javaee.version>
         <openjfx.version>11.0.1</openjfx.version>
-        <logback.version>1.2.3</logback.version>
+        <logback.version>1.2.13</logback.version>
         <maven.jar.plugin.version>3.2.0</maven.jar.plugin.version>
         <javafx.maven.plugin.version>0.0.3</javafx.maven.plugin.version>
         <main.class>de.mcdb.contactmanagerdesktop.Main</main.class>
